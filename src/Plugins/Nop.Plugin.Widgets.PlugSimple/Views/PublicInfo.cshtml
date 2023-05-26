@@ -1,0 +1,30 @@
+﻿@model Nop.Plugin.Widgets.PlugSimple.Models.PublicInfoModel
+@{
+    Layout = "";
+}
+
+<!--
+<link rel="stylesheet" href="~/Plugins/Widgets.PlugSimple/Content/PlugSimple/nivo-slider.css" />
+<link rel="stylesheet" href="~/Plugins/Widgets.PlugSimple/Content/PlugSimple/themes/custom/custom.css" />
+<script asp-exclude-from-bundle="true" src="~/Plugins/Widgets.PlugSimple/Scripts/jquery.nivo.slider.js" asp-location="Footer"></script>
+-->
+<div class="slider-wrapper theme-custom">
+    <div id="nivo-slider" class="nivoSlider">
+        @{
+            var dataSlide1 = new ViewDataDictionary(ViewData)
+            {
+                {"pictureUrl", Model.PS_PictureUrl},
+                { "text", Model.PS_Text},
+                { "link", Model.PS_Link},
+                {"alttext", Model.PS_AltText }
+            };
+
+            @await Html.PartialAsync("~/Plugins/Widgets.PlugSimple/Views/_PublicInfo.SliderLine.cshtml", dataSlide1)
+        }
+    </div>
+</div>
+<script asp-location="Footer">
+    $(window).on('load', function () {
+        $('#nivo-slider').nivoSlider();
+    });
+</script>

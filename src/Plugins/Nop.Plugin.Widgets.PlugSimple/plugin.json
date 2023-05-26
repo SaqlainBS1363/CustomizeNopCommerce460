@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Plug Simple",
+  "SystemName": "Widgets.PlugSimple",
+  "Version": "1.50",
+  "SupportedVersions": [ "4.60" ],
+  "Author": "Md. Anwarul Habib",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.PlugSimple.dll",
+  "Description": "This plugin allows you to show some contents on the home page"
+}

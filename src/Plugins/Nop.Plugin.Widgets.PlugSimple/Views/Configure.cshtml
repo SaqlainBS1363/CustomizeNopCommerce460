@@ -1,0 +1,71 @@
+﻿@model Nop.Plugin.Widgets.PlugSimple.Models.ConfigurationModel
+
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+<form asp-controller="WidgetsPlugSimple" asp-action="Configure" method="post">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="cards-group">
+                <div class="card card-default">
+                    <div class="card-header">
+                        Plugin Simple Photo Upload
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-override-store-checkbox asp-for="PS_PictureId_OverrideForStore" asp-input="PS_PictureId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="PS_PictureId" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="PS_PictureId" />
+                                <span asp-validation-for="PS_PictureId"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-override-store-checkbox asp-for="PS_Text_OverrideForStore" asp-input="PS_Text" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="PS_Text" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="PS_Text" />
+                                <span asp-validation-for="PS_Text"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-override-store-checkbox asp-for="PS_AltText_OverrideForStore" asp-input="PS_AltText" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="PS_AltText" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="PS_AltText" />
+                                <span asp-validation-for="PS_AltText"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-override-store-checkbox asp-for="PS_Link_OverrideForStore" asp-input="PS_Link" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="PS_Link" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="PS_Link" />
+                                <span asp-validation-for="PS_Link"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-md-9 offset-md-3">
+                                <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
