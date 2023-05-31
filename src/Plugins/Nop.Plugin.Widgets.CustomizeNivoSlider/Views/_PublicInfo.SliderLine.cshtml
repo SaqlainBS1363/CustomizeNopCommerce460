@@ -1,0 +1,14 @@
+﻿@model Nop.Plugin.Widgets.CustomizeNivoSlider.Models.PublicInfoModel
+
+@{
+    var pictureUrl = ViewData["pictureUrl"]?.ToString() ?? "";
+    var link = ViewData["link"]?.ToString() ?? "";
+    var dataTransition = ViewData["dataTransition"]?.ToString() ?? "";
+    var text = ViewData["text"]?.ToString() ?? "";
+    var alttext = ViewData["alttext"]?.ToString() ?? "";
+
+    if (!string.IsNullOrEmpty(pictureUrl))
+    {
+        <img src="@pictureUrl" alt="@alttext" title="@text" />
+    }
+}

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Customized Nivo Slider",
+  "SystemName": "Widgets.CustomizeNivoSlider",
+  "Version": "1.50",
+  "SupportedVersions": [ "4.60" ],
+  "Author": "Md. Anwarul Habib",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.CustomizeNivoSlider.dll",
+  "Description": "This customized plugin allows you to setup a slider different to Nivo Slider"
+}

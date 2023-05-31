@@ -1,0 +1,73 @@
+﻿@model Nop.Plugin.Widgets.CustomizeNivoSlider.Models.PublicInfoModel
+@{
+    Layout = "";
+}
+
+<link rel="stylesheet" href="~/Plugins/Widgets.CustomizeNivoSlider/Content/customizenivoslider/customize-nivo-slider.css" />
+<link rel="stylesheet" href="~/Plugins/Widgets.CustomizeNivoSlider/Content/customizenivoslider/themes/custom/custom.css" />
+<script src="~/Plugins/Widgets.CustomizeNivoSlider/Scripts/jquery.customize.nivo.slider.js"></script>
+
+<div class="slider__container">
+    <div class="slider" data-js="sslide">
+        @{
+            var dataSlide1 = new ViewDataDictionary(ViewData)
+            {
+                {"pictureUrl", Model.Picture1Url},
+                { "text", Model.Text1},
+                { "link", Model.Link1},
+                {"alttext", Model.AltText1 }
+            };
+
+            @await Html.PartialAsync("~/Plugins/Widgets.CustomizeNivoSlider/Views/_PublicInfo.SliderLine.cshtml", dataSlide1)
+        }
+        
+        @{
+            var dataSlide2 = new ViewDataDictionary(ViewData)
+            {
+                {"pictureUrl", Model.Picture2Url},
+                { "text", Model.Text2},
+                { "link", Model.Link2},
+                {"alttext", Model.AltText2 }
+            };
+
+            @await Html.PartialAsync("~/Plugins/Widgets.CustomizeNivoSlider/Views/_PublicInfo.SliderLine.cshtml", dataSlide2)
+        }
+        
+        @{
+            var dataSlide3 = new ViewDataDictionary(ViewData)
+            {
+                {"pictureUrl", Model.Picture3Url},
+                { "text", Model.Text3},
+                { "link", Model.Link3},
+                {"alttext", Model.AltText3 },
+                { "dataTransition", "slideInLeft"}
+            };
+
+            @await Html.PartialAsync("~/Plugins/Widgets.CustomizeNivoSlider/Views/_PublicInfo.SliderLine.cshtml", dataSlide3)
+        }
+
+        @{
+            var dataSlide4 = new ViewDataDictionary(ViewData)
+            {
+                {"pictureUrl", Model.Picture4Url},
+                { "text", Model.Text4},
+                { "link", Model.Link4},
+                {"alttext", Model.AltText4 }
+            };
+
+            @await Html.PartialAsync("~/Plugins/Widgets.CustomizeNivoSlider/Views/_PublicInfo.SliderLine.cshtml", dataSlide4)
+        }
+        
+        @{
+            var dataSlide5 = new ViewDataDictionary(ViewData)
+            {
+                {"pictureUrl", Model.Picture5Url},
+                { "text", Model.Text5},
+                { "link", Model.Link5},
+                {"alttext", Model.AltText5 }
+            };
+
+            @await Html.PartialAsync("~/Plugins/Widgets.CustomizeNivoSlider/Views/_PublicInfo.SliderLine.cshtml", dataSlide5)
+        }
+    </div>
+</div>
