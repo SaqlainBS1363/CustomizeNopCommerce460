@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Vehicle CRUD",
+  "SystemName": "Widgets.VehicleCRUD",
+  "Version": "1.50",
+  "SupportedVersions": [ "4.60" ],
+  "Author": "Md. Anwarul Habib",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.VehicleCRUD.dll",
+  "Description": "This plugin allows you to use Vehicle related CRUD function"
+}
