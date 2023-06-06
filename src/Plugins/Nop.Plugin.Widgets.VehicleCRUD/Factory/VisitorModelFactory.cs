@@ -52,6 +52,26 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             return visitorList;
         }
 
+        public async Task<IEnumerable<PublicInfoModel>> PreparePublicVisitorModelListAsync()
+        {
+            var visitors = _visitorService.GetAllVisitorsAsync().Result;
+            var visitorList = new List<PublicInfoModel>();
+
+            foreach (var visitor in visitors)
+            {
+                visitorList.Add(new PublicInfoModel
+                {
+                    Id = visitor.Id,
+                    Name = visitor.Name,
+                    Age = visitor.Age,
+                    Gender = visitor.Gender,
+                    Phone = visitor.Phone
+                });
+            }
+
+            return visitorList;
+        }
+
         public async Task<ConfigurationModel> AddVisitorModelAsync(ConfigurationModel configurationModel)
         {
             var newVisitor = new Visitor();

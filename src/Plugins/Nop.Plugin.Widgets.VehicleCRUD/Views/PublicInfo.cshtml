@@ -1,4 +1,5 @@
-﻿@model Nop.Plugin.Widgets.VisitorsCrud.Models.PublicInfoModel
+﻿@using Nop.Plugin.Widgets.VisitorsCrud.Models
+@model IEnumerable<PublicInfoModel>
 @{
     Layout = "";
 }
@@ -15,15 +16,18 @@
         </thead>
 
         <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Age</td>
-                <td>@item.Gender</td>
-                <td>@item.Phone</td>
-            </tr>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Age</td>
+                    <td>@item.Gender</td>
+                    <td>@item.Phone</td>
+                </tr>
+            }
         }
+
         </tbody>
     </table>
 </div>

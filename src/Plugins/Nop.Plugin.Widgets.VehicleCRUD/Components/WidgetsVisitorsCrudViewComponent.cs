@@ -10,9 +10,9 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Components
 {
     public class WidgetsVisitorsCrudViewComponent : NopViewComponent
     {
-        private readonly VisitorModelFactory _visitorModelFactory;
+        private readonly IVisitorModelFactory _visitorModelFactory;
 
-        public WidgetsVisitorsCrudViewComponent(VisitorModelFactory visitorModelFactory)
+        public WidgetsVisitorsCrudViewComponent(IVisitorModelFactory visitorModelFactory)
         {
             _visitorModelFactory = visitorModelFactory;
         }
@@ -20,23 +20,9 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Components
         /// <returns>A task that represents the asynchronous operation</returns>
         public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
         {
-            var publicVisitors = _visitorModelFactory.PrepareVisitorModelListAsync().Result;
+            var publicVisitors = _visitorModelFactory.PreparePublicVisitorModelListAsync().Result;
 
-            var publicVisitorList = new List<PublicInfoModel>();
-
-            foreach (var visitor in publicVisitors)
-            {
-                publicVisitorList.Add(new PublicInfoModel
-                {
-                    Id = visitor.VisitorId,
-                    Name = visitor.Name,
-                    Age = visitor.Age,
-                    Gender = visitor.Gender,
-                    Phone = visitor.Phone
-                });
-            }
-
-            return View("~/Plugins/Widgets.VisitorsCrud/Views/PublicInfo.cshtml", publicVisitorList);
+            return View("~/Plugins/Widgets.VisitorsCrud/Views/PublicInfo.cshtml", publicVisitors);
         }
     }
 }

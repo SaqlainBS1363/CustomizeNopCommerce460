@@ -14,7 +14,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Infrastructure
 
         public void Configure(IApplicationBuilder application)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
