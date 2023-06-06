@@ -21,21 +21,6 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
 
         public async Task<ConfigurationModel> PrepareVisitorModelAsync(ConfigurationModel configurationModel)
         {
-            if (configurationModel.Gender != null)
-            {
-                var newVisitor = new Visitor();
-                Random random = new Random();
-
-                newVisitor.Id = random.Next(100, 10000);
-                newVisitor.Name = configurationModel.Name;
-                newVisitor.Phone = configurationModel.Phone;
-                newVisitor.Age = configurationModel.Age;
-                newVisitor.Gender = configurationModel.Gender;
-
-                await _visitorService.AddVisitorAsync(newVisitor);
-
-                return null;
-            }
             configurationModel.GenderSelection = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Select a gender", Value = "" },
@@ -65,6 +50,20 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             }
 
             return visitorList;
+        }
+
+        public async Task<ConfigurationModel> AddVisitorModelAsync(ConfigurationModel configurationModel)
+        {
+            var newVisitor = new Visitor();
+
+            newVisitor.Name = configurationModel.Name;
+            newVisitor.Phone = configurationModel.Phone;
+            newVisitor.Age = configurationModel.Age;
+            newVisitor.Gender = configurationModel.Gender;
+
+            await _visitorService.AddVisitorAsync(newVisitor);
+
+            return null;
         }
     }
 }
