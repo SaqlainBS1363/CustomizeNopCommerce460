@@ -18,5 +18,11 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
         Task<IEnumerable<PublicInfoModel>> PreparePublicVisitorModelListAsync();
 
         Task<ConfigurationModel> AddVisitorModelAsync(ConfigurationModel configurationModel);
+
+        Task<ConfigurationModel> GetVisitorModelAsync(int Id);
+
+        Task<ConfigurationModel> EditVisitorModelAsync(ConfigurationModel configurationModel);
+
+        Task<ConfigurationModel> DeleteVisitorModelAsync(int Id);
     }
 }

@@ -11,7 +11,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Service
         Task<IEnumerable<Visitor>> GetAllVisitorsAsync();
 
         //Get Single Visitor
-        Task<Visitor> GetSingleVisitorAsync(int visitorId);
+        Task<Visitor> GetSingleVisitorAsync(int Id);
 
         //Add Visitor
         Task AddVisitorAsync(Visitor visitor);

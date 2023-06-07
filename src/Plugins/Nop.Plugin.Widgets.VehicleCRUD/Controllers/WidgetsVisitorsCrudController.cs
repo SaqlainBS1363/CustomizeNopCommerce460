@@ -70,5 +70,54 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
             
             return await Configure();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int Id)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var visitor = await _visitorModelFactory.GetVisitorModelAsync(Id);
+
+            return View("~/Plugins/Widgets.VisitorsCrud/Views/Edit.cshtml", visitor);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ConfigurationModel model)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            await _visitorModelFactory.EditVisitorModelAsync(model);
+
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
+
+            return await Configure();
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var visitor = await _visitorModelFactory.GetVisitorModelAsync(Id);
+
+            return View("~/Plugins/Widgets.VisitorsCrud/Views/Delete.cshtml", visitor);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int Id)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            await _visitorModelFactory.DeleteVisitorModelAsync(Id);
+
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
+
+            return await Configure();
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Plugin.Widgets.VisitorsCrud.Domain;
 using Nop.Plugin.Widgets.VisitorsCrud.Models;
@@ -41,7 +42,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             { 
                 visitorList.Add(new ConfigurationModel
                 {
-                    VisitorId = visitor.Id,
+                    Id = visitor.Id,
                     Name = visitor.Name,
                     Age = visitor.Age,
                     Gender = visitor.Gender,
@@ -82,6 +83,52 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             newVisitor.Gender = configurationModel.Gender;
 
             await _visitorService.AddVisitorAsync(newVisitor);
+
+            return null;
+        }
+
+        public async Task<ConfigurationModel> GetVisitorModelAsync(int Id)
+        {
+            var getVisitor = _visitorService.GetSingleVisitorAsync(Id).Result;
+            var sendVisitor = new ConfigurationModel
+            { 
+                Id = Id,
+                Name = getVisitor.Name,
+                Age = getVisitor.Age,
+                Gender = getVisitor.Gender,               
+                Phone = getVisitor.Phone
+            };
+
+            sendVisitor.GenderSelection = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Select a gender", Value = "" },
+                new SelectListItem { Text = "Male", Value = "Male" },
+                new SelectListItem { Text = "Female", Value = "Female" },
+                new SelectListItem { Text = "Other", Value = "Other" }
+            };
+
+            return sendVisitor;
+        }
+
+        public async Task<ConfigurationModel> EditVisitorModelAsync(ConfigurationModel configurationModel)
+        {
+            var newVisitor = _visitorService.GetSingleVisitorAsync(configurationModel.Id).Result;
+
+            newVisitor.Name = configurationModel.Name;
+            newVisitor.Phone = configurationModel.Phone;
+            newVisitor.Age = configurationModel.Age;
+            newVisitor.Gender = configurationModel.Gender;
+
+            await _visitorService.UpdateVisitorAsync(newVisitor);
+
+            return null;
+        }
+
+        public async Task<ConfigurationModel> DeleteVisitorModelAsync(int Id)
+        {
+            var newVisitor = _visitorService.GetSingleVisitorAsync(Id).Result;
+
+            await _visitorService.DeleteVisitorAsync(newVisitor);
 
             return null;
         }

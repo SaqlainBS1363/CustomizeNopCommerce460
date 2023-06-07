@@ -25,9 +25,9 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Service
             });
         }
 
-        public async Task<Visitor> GetSingleVisitorAsync(int visitorId)
+        public async Task<Visitor> GetSingleVisitorAsync(int Id)
         {
-            return await _visitorRepository.GetByIdAsync(visitorId);
+            return await _visitorRepository.GetByIdAsync(Id);
         }
 
         public async Task AddVisitorAsync(Visitor visitor)

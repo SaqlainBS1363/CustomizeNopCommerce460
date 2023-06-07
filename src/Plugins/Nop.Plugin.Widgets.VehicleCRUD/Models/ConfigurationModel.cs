@@ -8,7 +8,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Models
 {
     public record ConfigurationModel : BaseNopModel
     {
-        public int VisitorId { get; set; }
+        public int Id { get; set; }
 
         [NopResourceDisplayName("Name")]
         public string Name { get; set; }

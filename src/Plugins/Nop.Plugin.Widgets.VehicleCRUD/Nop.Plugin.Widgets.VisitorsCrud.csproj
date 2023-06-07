@@ -21,6 +21,8 @@
     <None Remove="plugin.json" />
     <None Remove="Views\Configure.cshtml" />
     <None Remove="Views\Create.cshtml" />
+    <None Remove="Views\Delete.cshtml" />
+    <None Remove="Views\Edit.cshtml" />
     <None Remove="Views\PublicInfo.cshtml" />
     <None Remove="Views\_ViewImports.cshtml" />
   </ItemGroup>
@@ -32,6 +34,12 @@
   
   <ItemGroup>
     <Content Include="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Delete.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Edit.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Create.cshtml">
