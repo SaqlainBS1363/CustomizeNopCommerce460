@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Routing;
 using Nop.Core;
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Widgets.VisitorsCrud.Components;
@@ -9,14 +11,16 @@ using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Plugins;
+using Nop.Web.Framework;
 using Nop.Web.Framework.Infrastructure;
+using Nop.Web.Framework.Menu;
 
 namespace Nop.Plugin.Widgets.VisitorsCrud
 {
     /// <summary>
     /// PLugin
     /// </summary>
-    public class VisitorsCrudPlugin : BasePlugin, IWidgetPlugin
+    public class VisitorsCrudPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
     {
         private readonly ILocalizationService _localizationService;
         private readonly IWebHelper _webHelper;
@@ -46,6 +50,27 @@ namespace Nop.Plugin.Widgets.VisitorsCrud
         public override string GetConfigurationPageUrl()
         {
             return _webHelper.GetStoreLocation() + "Admin/WidgetsVisitorsCrud/Configure";
+        }
+
+        /// <summary>
+        /// Manage sitemap. You can use "SystemName" of menu items to manage existing sitemap or add a new menu item.
+        /// </summary>
+        /// <param name="rootNode">Root node of the sitemap.</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        public async Task ManageSiteMapAsync(SiteMapNode rootNode)
+        {
+            var index = rootNode.ChildNodes.Count;
+
+            rootNode.ChildNodes.Insert(index, new SiteMapNode
+            {
+                Visible = true,
+                SystemName = "Widgets.VisitorsCrud",
+                Title = "Visitors Crud",
+                IconClass = "far fa-dot-circle",
+                ControllerName = "WidgetsVisitorsCrud",
+                ActionName = "Configure",
+                RouteValues = new RouteValueDictionary { { "area", AreaNames.Admin } }
+            });
         }
 
         /// <summary>
