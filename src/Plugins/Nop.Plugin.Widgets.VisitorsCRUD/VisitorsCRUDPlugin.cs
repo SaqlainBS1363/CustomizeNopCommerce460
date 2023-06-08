@@ -66,7 +66,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud
                 Visible = true,
                 SystemName = "Widgets.VisitorsCrud",
                 Title = "Visitors Crud",
-                IconClass = "far fa-dot-circle",
+                IconClass = "fa fa-id-card",
                 ControllerName = "WidgetsVisitorsCrud",
                 ActionName = "Configure",
                 RouteValues = new RouteValueDictionary { { "area", AreaNames.Admin } }
@@ -91,12 +91,10 @@ namespace Nop.Plugin.Widgets.VisitorsCrud
         {
             await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
             {
-                ["Plugins.Widgets.VisitorsCrud.AddVisitorButton"] = "Add Visitor",
-                ["Plugins.Widgets.VisitorsCrud.EditVisitorButton"] = "Edit",
-                ["Plugins.Widgets.VisitorsCrud.DeleteVisitorButton"] = "Delete",
-                ["Plugins.Widgets.VisitorsCrud.SaveVisitorInfo"] = "Save",
-                ["Plugins.Widgets.VisitorsCrud.IndexPageTitle"] = "Visitor Info Page",
-                ["Plugins.Widgets.VisitorsCrud.EditPageTitle"] = "Edit VIsitor"                
+                ["Plugins.Widgets.VisitorsCrud.InfoVisitorPageTitle"] = "Visitor Information",
+                ["Plugins.Widgets.VisitorsCrud.EditVisitorPageTitle"] = "Edit Visitor",
+                ["Plugins.Widgets.VisitorsCrud.InsertVisitorPageTitle"] = "Create Visitor",
+                ["Plugins.Widgets.VisitorsCrud.AllVisitorsPageTitle"] = "All Visitors"
             });
 
             await base.InstallAsync();
