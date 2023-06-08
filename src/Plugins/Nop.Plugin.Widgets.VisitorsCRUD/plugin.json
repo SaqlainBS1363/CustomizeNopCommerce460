@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Visitors Crud",
+  "SystemName": "Widgets.VisitorsCrud",
+  "Version": "1.50",
+  "SupportedVersions": [ "4.60" ],
+  "Author": "Md. Anwarul Habib",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.VisitorsCrud.dll",
+  "Description": "This plugin allows you to use Visitors related Crud function"
+}

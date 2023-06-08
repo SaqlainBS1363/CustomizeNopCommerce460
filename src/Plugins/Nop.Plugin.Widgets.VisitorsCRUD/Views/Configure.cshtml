@@ -1,0 +1,57 @@
+﻿@using Nop.Plugin.Widgets.VisitorsCrud.Models
+@model List<ConfigurationModel>
+
+@{
+    Layout = "_ConfigurePlugin";
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName("Widgets.VisitorsCrud");
+}
+
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        Visitors
+    </h1>
+    <div class="float-right">
+        <a asp-controller="WidgetsVisitorsCrud" asp-action="Create" method="Get"><i class="fas fa-plus-square"></i>Add new visitor</a>
+    </div>
+</div>
+
+<br />
+<br />
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="cards-group">
+            <div class="card card-default">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Phone</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.Age</td>
+                                    <td>@item.Gender</td>
+                                    <td>@item.Phone</td>
+                                    <td>
+                                        <a asp-controller="WidgetsVisitorsCrud" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a> |
+                                        <a asp-controller="WidgetsVisitorsCrud" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

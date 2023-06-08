@@ -1,0 +1,33 @@
+﻿@using Nop.Plugin.Widgets.VisitorsCrud.Models
+@model IEnumerable<PublicInfoModel>
+@{
+    Layout = "";
+}
+
+<div class="slider-wrapper theme-custom">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Age</td>
+                    <td>@item.Gender</td>
+                    <td>@item.Phone</td>
+                </tr>
+            }
+        }
+
+        </tbody>
+    </table>
+</div>

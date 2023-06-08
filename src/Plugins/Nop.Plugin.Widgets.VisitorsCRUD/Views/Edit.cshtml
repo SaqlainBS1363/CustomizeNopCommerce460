@@ -1,0 +1,52 @@
+﻿@using Nop.Plugin.Widgets.VisitorsCrud.Models
+@model ConfigurationModel
+
+@{
+    Layout = "_ConfigurePlugin";
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName("Widgets.VisitorsCrud");
+}
+
+<h1>Edit</h1>
+
+<h4>Visitor</h4>
+<hr />
+<div class="editSection">
+    <form asp-controller="WidgetsVisitorsCrud" asp-action="Edit" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="editFields">
+            <div class="form-group">
+                <nop-label asp-for="Name" />
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <nop-label asp-for="Age" />
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <nop-label asp-for="Gender" />
+                <nop-select asp-for="Gender" asp-items="Model.GenderSelection" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <nop-label asp-for="Phone" />
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>            
+        </div>
+        <br />
+        <div class="saveButton">
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+</div>
+<br />
+<div>
+    <a asp-controller="WidgetsVisitorsCrud" asp-action="Configure">Back to List</a>
+</div>
