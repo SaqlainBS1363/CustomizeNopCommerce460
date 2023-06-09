@@ -1,5 +1,4 @@
-﻿@using Nop.Plugin.Widgets.VisitorsCrud.Models
-@model List<ConfigurationModel>
+﻿@model ConfigurationSearchModel
 
 @{
     Layout = "_ConfigurePlugin";
@@ -12,18 +11,75 @@
         @T("Plugins.Widgets.VisitorsCrud.AllVisitorsPageTitle")
     </h1>
     <div class="float-right">
+
         <a asp-controller="WidgetsVisitorsCrud" asp-action="Create" method="Get"><i class="fas fa-plus-square"></i>Add new visitor</a>
     </div>
 </div>
 
-<br />
-<br />
-
 <section class="content">
     <div class="container-fluid">
+    <div class="form-horizontal">
         <div class="cards-group">
             <div class="card card-default">
                 <div class="card-body">
+                    
+                    
+                    @await Html.PartialAsync("Table", new DataTablesModel
+                    {
+                        Name = "visitors-grid",
+                        UrlRead = new DataUrl("Configure", "WidgetsVisitorsCrud", null),
+                        /*UrlUpdate = new DataUrl("Edit", "WidgetsVisitorsCrud", null),*/
+                        Length = 10,
+                        LengthMenu = "10",
+                        ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(ConfigurationModel.Name))
+                            {
+                                Title = "Name",
+                                Width = "100"
+                            },
+                            new ColumnProperty(nameof(ConfigurationModel.Age))
+                            {
+                                Title = "Age",
+                                Width = "100"
+                            },
+                            new ColumnProperty(nameof(ConfigurationModel.Gender))
+                            {
+                                Title = "Gender",
+                                Width = "100",
+                                ClassName = NopColumnClassDefaults.CenterAll
+                                /*Editable = true,
+                                EditType = EditType.Number*/
+                            },
+                            new ColumnProperty(nameof(ConfigurationModel.Phone))
+                            {
+                                Title = "Phone",
+                                Width = "100",
+                                ClassName = NopColumnClassDefaults.CenterAll,
+                                /*Render = new RenderBoolean(),
+                                Editable = true,
+                                EditType = EditType.Checkbox*/
+                            },
+                            new ColumnProperty("Actions")
+                            {
+                                Title = "Actions",
+                                Width = "150",
+                                /*ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderCustom("renderColumnConfigure")*/
+                            }
+                        }
+                    })
+
+                    <script>
+                        function renderColumnConfigure(data, type, row, meta) {
+                            if (row.ConfigurationUrl && row.ConfigurationUrl.length > 0) {
+                                return '<a class="btn btn-default" href="' + row.ConfigurationUrl + '"><i class="fas fa-cog"></i>@T("Admin.ContentManagement.Widgets.Configure").Text</a>';
+                            } else {
+                                return '';
+                            }
+                        }
+                    </script>
+
                     <table class="table">
                         <thead>
                             <tr>
@@ -53,5 +109,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </section>

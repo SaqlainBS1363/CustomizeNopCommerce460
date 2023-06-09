@@ -47,6 +47,18 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
             return View("~/Plugins/Widgets.VisitorsCrud/Views/Configure.cshtml", model);
         }
 
+        [HttpPost]
+        public virtual async Task<IActionResult> Configure(ConfigurationSearchModel searchModel)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageCategories))
+                return await AccessDeniedDataTablesJson();
+
+            //prepare model
+            var model = await _visitorModelFactory.PrepareVisitorModelListAsync(searchModel);
+
+            return Json(model);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
