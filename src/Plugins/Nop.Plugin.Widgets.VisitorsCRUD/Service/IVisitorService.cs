@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Nop.Core;
 using Nop.Plugin.Widgets.VisitorsCrud.Domain;
 
 namespace Nop.Plugin.Widgets.VisitorsCrud.Service
@@ -8,7 +9,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Service
     public interface IVisitorService
     {
         //Get All Visitors
-        Task<IEnumerable<Visitor>> GetAllVisitorsAsync();
+        Task<IPagedList<Visitor>> GetAllVisitorsAsync();
 
         //Get Single Visitor
         Task<Visitor> GetSingleVisitorAsync(int Id);

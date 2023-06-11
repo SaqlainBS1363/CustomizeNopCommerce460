@@ -6,10 +6,8 @@ using System.Collections.Generic;
 
 namespace Nop.Plugin.Widgets.VisitorsCrud.Models
 {
-    public record ConfigurationModel : BaseNopModel
+    public partial record ConfigurationModel : BaseNopEntityModel
     {
-        public int Id { get; set; }
-
         [NopResourceDisplayName("Name")]
         public string Name { get; set; }
 

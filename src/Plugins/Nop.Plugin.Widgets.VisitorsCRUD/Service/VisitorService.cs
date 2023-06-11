@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Nop.Core;
 using Nop.Data;
 using Nop.Plugin.Widgets.VisitorsCrud.Domain;
 
@@ -17,12 +19,16 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Service
             _visitorRepository = visitorRepository;
         }
 
-        public async Task<IEnumerable<Visitor>> GetAllVisitorsAsync()
+        public async Task<IPagedList<Visitor>> GetAllVisitorsAsync()
         {
-            return await _visitorRepository.GetAllAsync(query =>
+            int pageIndex = 0, pageSize = int.MaxValue;
+            var visitors =  await _visitorRepository.GetAllAsync(query =>
             {
                 return from v in query where v.Id > 0 select v;
             });
+
+            //paging
+            return new PagedList<Visitor>(visitors, pageIndex, pageSize);
         }
 
         public async Task<Visitor> GetSingleVisitorAsync(int Id)

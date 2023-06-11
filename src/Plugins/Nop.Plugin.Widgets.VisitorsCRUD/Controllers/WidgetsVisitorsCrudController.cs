@@ -37,12 +37,13 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
             _permissionService = permissionService;
         }
 
-        public async Task<IActionResult> Configure()
+        public virtual async Task<IActionResult> Configure()
         {
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var model = await _visitorModelFactory.PrepareVisitorModelListAsync();
+            //prepare model
+            var model = await _visitorModelFactory.PrepareVisitorModelListAsync(new ConfigurationSearchModel());
 
             return View("~/Plugins/Widgets.VisitorsCrud/Views/Configure.cshtml", model);
         }
@@ -78,9 +79,9 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
 
             await _visitorModelFactory.AddVisitorModelAsync(model);
 
-            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
-            
-            return await Configure();
+            /*_notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));*/
+
+            return RedirectToAction("Configure");
         }
 
         [HttpGet]
@@ -102,9 +103,9 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
 
             await _visitorModelFactory.EditVisitorModelAsync(model);
 
-            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
+            /*_notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));*/
 
-            return await Configure();
+            return RedirectToAction("Configure");
         }
 
 
@@ -127,9 +128,9 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
 
             await _visitorModelFactory.DeleteVisitorModelAsync(Id);
 
-            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
+            /*_notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));*/
 
-            return await Configure();
+            return RedirectToAction("Configure");
         }
     }
 }

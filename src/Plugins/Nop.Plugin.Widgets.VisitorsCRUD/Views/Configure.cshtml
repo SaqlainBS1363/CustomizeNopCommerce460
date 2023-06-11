@@ -1,4 +1,5 @@
-﻿@model ConfigurationSearchModel
+﻿@using Nop.Plugin.Widgets.VisitorsCrud.Models
+@model ConfigurationListModel
 
 @{
     Layout = "_ConfigurePlugin";
@@ -36,14 +37,16 @@
                             new ColumnProperty(nameof(ConfigurationModel.Name))
                             {
                                 Title = "Name",
+                                ClassName = NopColumnClassDefaults.CenterAll,
                                 Width = "100"
                             },
                             new ColumnProperty(nameof(ConfigurationModel.Age))
                             {
                                 Title = "Age",
+                                ClassName = NopColumnClassDefaults.CenterAll,
                                 Width = "100"
                             },
-                            new ColumnProperty(nameof(ConfigurationModel.Gender))
+                        new ColumnProperty(nameof(ConfigurationModel.Gender))
                             {
                                 Title = "Gender",
                                 Width = "100",
@@ -60,12 +63,19 @@
                                 Editable = true,
                                 EditType = EditType.Checkbox*/
                             },
-                            new ColumnProperty("Actions")
+                            new ColumnProperty(nameof(ConfigurationModel.Id))
                             {
-                                Title = "Actions",
-                                Width = "150",
-                                /*ClassName =  NopColumnClassDefaults.Button,
-                                Render = new RenderCustom("renderColumnConfigure")*/
+                                Title = "Details",
+                                Width = "50",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonView(new DataUrl("Delete"))
+                            },
+                            new ColumnProperty(nameof(ConfigurationModel.Id))
+                            {
+                                Title = T("Admin.Common.Edit").Text,
+                                Width = "50",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonEdit(new DataUrl("Edit"))
                             }
                         }
                     })
@@ -80,7 +90,7 @@
                         }
                     </script>
 
-                    <table class="table">
+                    @*<table class="table">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -105,7 +115,7 @@
                                 </tr>
                             }
                         </tbody>
-                    </table>
+                    </table>*@
                 </div>
             </div>
         </div>

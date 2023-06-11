@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Plugin.Widgets.VisitorsCrud.Domain;
 using Nop.Plugin.Widgets.VisitorsCrud.Models;
 using Nop.Plugin.Widgets.VisitorsCrud.Service;
+using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
+using Nop.Web.Areas.Admin.Models.Catalog;
+using Nop.Web.Framework.Models;
+using Nop.Web.Framework.Models.Extensions;
 
 namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
 {
@@ -33,24 +37,33 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             return configurationModel;
         }
 
-        public async Task<IEnumerable<ConfigurationModel>> PrepareVisitorModelListAsync()
+        public async Task<ConfigurationListModel> PrepareVisitorModelListAsync(ConfigurationSearchModel searchModel)
         {
+            //get visitors
             var visitors = _visitorService.GetAllVisitorsAsync().Result;
-            var visitorList = new List<ConfigurationModel>();
 
-            foreach (var visitor in visitors)
-            { 
-                visitorList.Add(new ConfigurationModel
+            //prepare grid model
+            var model = await new ConfigurationListModel().PrepareToGridAsync(searchModel, visitors, () =>
+            {
+                return visitors.SelectAwait(async visitor =>
                 {
-                    Id = visitor.Id,
-                    Name = visitor.Name,
-                    Age = visitor.Age,
-                    Gender = visitor.Gender,
-                    Phone = visitor.Phone
-                });
-            }
+                    //fill in model values from the entity
+                    /*var configurationModel = visitor.ToModel<ConfigurationModel>();*/
 
-            return visitorList;
+                    //fill in model values from the entity
+                    var configurationModel = new ConfigurationModel
+                    {
+                        Id = visitor.Id,
+                        Name = visitor.Name,
+                        Age = visitor.Age,
+                        Gender = visitor.Gender,
+                        Phone = visitor.Phone
+                    };
+                    return configurationModel;
+                });
+            });
+
+            return model;            
         }
 
         public async Task<IEnumerable<PublicInfoModel>> PreparePublicVisitorModelListAsync()
