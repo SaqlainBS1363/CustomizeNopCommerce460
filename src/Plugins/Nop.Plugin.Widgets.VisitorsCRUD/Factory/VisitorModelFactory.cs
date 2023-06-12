@@ -42,13 +42,41 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             if (searchModel == null)
                 throw new ArgumentNullException(nameof(searchModel));
 
+            /*//prepare "gender" filter (0 - All; 1 - Male only; 2 - Female only)
+            searchModel.AvailableGenderOptions.Add(new SelectListItem
+            {
+                Value = "0",
+                Text = "All"
+            });
+            searchModel.AvailableGenderOptions.Add(new SelectListItem
+            {
+                Value = "1",
+                Text = "Male"
+            });
+            searchModel.AvailableGenderOptions.Add(new SelectListItem
+            {
+                Value = "2",
+                Text = "Female"
+            });*/
+
+            //prepare page parameters
+            searchModel.SetGridPageSize();
+
             return searchModel;
         }
 
         public async Task<ConfigurationListModel> PrepareVisitorModelListAsync(ConfigurationSearchModel searchModel)
         {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
             //get visitors
-            var visitors = _visitorService.GetAllVisitorsAsync().Result;
+            var visitors = await _visitorService.GetAllVisitorsAsync(
+                    visitorName: searchModel.SearchVisitorName,
+                    /*visitorGender: searchModel.SearchVisitorGenderId,*/
+                    pageIndex: searchModel.Page - 1,
+                    pageSize: searchModel.PageSize
+                );
 
             //prepare grid model
             var model = await new ConfigurationListModel().PrepareToGridAsync(searchModel, visitors, () =>
