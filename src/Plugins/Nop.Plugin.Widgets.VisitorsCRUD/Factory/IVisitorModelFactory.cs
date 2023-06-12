@@ -13,11 +13,13 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
     {
         Task<ConfigurationModel> PrepareVisitorModelAsync(ConfigurationModel configurationModel);
 
+        Task<ConfigurationSearchModel> PrepareVisitorSearchModelAsync(ConfigurationSearchModel searchModel);
+
         Task<ConfigurationListModel> PrepareVisitorModelListAsync(ConfigurationSearchModel searchModel);
 
         Task<IEnumerable<PublicInfoModel>> PreparePublicVisitorModelListAsync();
 
-        Task<ConfigurationModel> AddVisitorModelAsync(ConfigurationModel configurationModel);
+        Task<Visitor> AddVisitorModelAsync(ConfigurationModel configurationModel);
 
         Task<ConfigurationModel> GetVisitorModelAsync(int Id);
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
+using Nop.Plugin.Widgets.VisitorsCrud.Domain;
 using Nop.Plugin.Widgets.VisitorsCrud.Factory;
 using Nop.Plugin.Widgets.VisitorsCrud.Models;
 using Nop.Plugin.Widgets.VisitorsCrud.Service;
@@ -10,6 +11,7 @@ using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Messages;
 using Nop.Services.Security;
+using Nop.Services.Seo;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
@@ -25,15 +27,19 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
         private readonly INotificationService _notificationService;
         private readonly IPermissionService _permissionService;
         private readonly IVisitorModelFactory _visitorModelFactory;
+        private readonly IUrlRecordService _urlRecordService;
+
 
         public WidgetsVisitorsCrudController(ILocalizationService localizationService,
             INotificationService notificationService,
             IVisitorModelFactory visitorModelFactory,
+            IUrlRecordService urlRecordService,
             IPermissionService permissionService)
         {
             _localizationService = localizationService;
             _notificationService = notificationService;
             _visitorModelFactory = visitorModelFactory;
+            _urlRecordService = urlRecordService;
             _permissionService = permissionService;
         }
 
@@ -43,7 +49,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
                 return AccessDeniedView();
 
             //prepare model
-            var model = await _visitorModelFactory.PrepareVisitorModelListAsync(new ConfigurationSearchModel());
+            var model = await _visitorModelFactory.PrepareVisitorSearchModelAsync(new ConfigurationSearchModel());
 
             return View("~/Plugins/Widgets.VisitorsCrud/Views/Configure.cshtml", model);
         }
@@ -74,10 +80,19 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ConfigurationModel model)
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageCategories))
                 return AccessDeniedView();
 
-            await _visitorModelFactory.AddVisitorModelAsync(model);
+            if (ModelState.IsValid)
+            {
+                var visitor = await _visitorModelFactory.AddVisitorModelAsync(model);
+
+                //search engine name
+                model.SeName = "" + model.Name + model.Age;
+                model.SeName = await _urlRecordService.ValidateSeNameAsync(visitor, model.SeName, visitor.Name, true);
+
+                await _urlRecordService.SaveSlugAsync(visitor, model.SeName, 0);
+            }
 
             /*_notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));*/
 

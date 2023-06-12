@@ -14,6 +14,8 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Models
         [NopResourceDisplayName("Age")]
         public int Age { get; set; }
 
+        public string SeName { get; set; }
+
         [NopResourceDisplayName("Gender")]
         public string Gender { get; set; }
         public IEnumerable<SelectListItem> GenderSelection { get; set; }

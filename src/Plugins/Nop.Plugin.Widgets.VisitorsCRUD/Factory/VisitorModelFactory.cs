@@ -37,6 +37,14 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             return configurationModel;
         }
 
+        public async Task<ConfigurationSearchModel> PrepareVisitorSearchModelAsync(ConfigurationSearchModel searchModel)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+            return searchModel;
+        }
+
         public async Task<ConfigurationListModel> PrepareVisitorModelListAsync(ConfigurationSearchModel searchModel)
         {
             //get visitors
@@ -56,6 +64,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
                         Id = visitor.Id,
                         Name = visitor.Name,
                         Age = visitor.Age,
+                        SeName = "" + visitor.Name + visitor.Age,
                         Gender = visitor.Gender,
                         Phone = visitor.Phone
                     };
@@ -86,7 +95,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             return visitorList;
         }
 
-        public async Task<ConfigurationModel> AddVisitorModelAsync(ConfigurationModel configurationModel)
+        public async Task<Visitor> AddVisitorModelAsync(ConfigurationModel configurationModel)
         {
             var newVisitor = new Visitor();
 
@@ -97,7 +106,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
 
             await _visitorService.AddVisitorAsync(newVisitor);
 
-            return null;
+            return newVisitor;
         }
 
         public async Task<ConfigurationModel> GetVisitorModelAsync(int Id)
