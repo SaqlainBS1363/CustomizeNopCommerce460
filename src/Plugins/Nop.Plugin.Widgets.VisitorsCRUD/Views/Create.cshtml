@@ -1,14 +1,28 @@
 ﻿@model Nop.Plugin.Widgets.VisitorsCrud.Models.ConfigurationModel
 
 @{
-    Layout = "_ConfigurePlugin";
+    Layout = "_AdminPopupLayout";
+
     //active menu item (system name)
     NopHtml.SetActiveMenuItemSystemName("Widgets.VisitorsCrud");
 }
 
-<form asp-controller="WidgetsVisitorsCrud" asp-action="Create" method="post">
+@if (ViewBag.RefreshPage == true)
+{
+    <script>
+        try { window.opener.document.forms['@(Context.Request.Query["formId"])'].@(Context.Request.Query["btnId"]).click(); }
+        catch (e) { }
+        window.close();
+    </script>
+}
+
+<form asp-controller="WidgetsVisitorsCrud" asp-action="Create" method="post"
+      asp-route-btnId="@Context.Request.Query["btnId"]"
+      asp-route-formId="@Context.Request.Query["formId"]">
+
     <div asp-validation-summary="ModelOnly"></div>
     <input asp-for="Id" type="hidden" />
+
     <section class="content">
         <div class="container-fluid">
             <div class="cards-group">

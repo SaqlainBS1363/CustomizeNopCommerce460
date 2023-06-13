@@ -78,6 +78,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
         }
 
         [HttpPost]
+        [FormValueRequired("save")]
         public async Task<IActionResult> Create(ConfigurationModel model)
         {
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageCategories))
@@ -92,6 +93,12 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
                 model.SeName = await _urlRecordService.ValidateSeNameAsync(visitor, model.SeName, visitor.Name, true);
 
                 await _urlRecordService.SaveSlugAsync(visitor, model.SeName, 0);
+
+                ViewBag.RefreshPage = true;
+
+                var model1 = await _visitorModelFactory.PrepareVisitorModelAsync(model);
+
+                return View("~/Plugins/Widgets.VisitorsCrud/Views/Create.cshtml", model1);
             }
 
             /*_notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));*/

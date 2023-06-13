@@ -18,7 +18,22 @@
     </h1>
     <div class="float-right">
 
-        <a asp-controller="WidgetsVisitorsCrud" asp-action="Create" class="btn btn-primary" method="Get"><i class="fas fa-plus-square"></i>Add new visitor</a>
+        @*<a asp-controller="WidgetsVisitorsCrud" asp-action="Create" class="btn btn-primary" method="Get"><i class="fas fa-plus-square"></i>Add new visitor</a>*@
+        
+        <button type="submit" id="btnAddNewVisitor" onclick="javascript:OpenWindow('@(Url.Action("Create", "WidgetsVisitorsCrud", new { btnId = "btnRefreshVisitors", formId = "visitor-form"}))', 800, 600, true); return false;" class="btn btn-primary">
+            Add new visitor
+        </button>
+        <button type="submit" id="btnRefreshVisitors" style="display: none"></button>
+        <script>
+            $(document).ready(function () {
+                $('#btnRefreshVisitors').click(function () {
+                    updateTable('#visitors-grid');
+                    //return false to don't reload a page
+                    return false;
+                });
+            });
+        </script>
+    
     </div>
 </div>
 
