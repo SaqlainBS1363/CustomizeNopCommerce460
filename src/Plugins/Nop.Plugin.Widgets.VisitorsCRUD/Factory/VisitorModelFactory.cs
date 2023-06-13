@@ -42,22 +42,14 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             if (searchModel == null)
                 throw new ArgumentNullException(nameof(searchModel));
 
-            /*//prepare "gender" filter (0 - All; 1 - Male only; 2 - Female only)
-            searchModel.AvailableGenderOptions.Add(new SelectListItem
+            //prepare "Gender" filter
+            searchModel.AvailableVisitorGenderOptions = new List<SelectListItem>
             {
-                Value = "0",
-                Text = "All"
-            });
-            searchModel.AvailableGenderOptions.Add(new SelectListItem
-            {
-                Value = "1",
-                Text = "Male"
-            });
-            searchModel.AvailableGenderOptions.Add(new SelectListItem
-            {
-                Value = "2",
-                Text = "Female"
-            });*/
+                new SelectListItem { Text = "All", Value = "" },
+                new SelectListItem { Text = "Male", Value = "Male" },
+                new SelectListItem { Text = "Female", Value = "Female" },
+                new SelectListItem { Text = "Other", Value = "Other" }
+            };            
 
             //prepare page parameters
             searchModel.SetGridPageSize();
@@ -73,7 +65,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             //get visitors
             var visitors = await _visitorService.GetAllVisitorsAsync(
                     visitorName: searchModel.SearchVisitorName,
-                    /*visitorGender: searchModel.SearchVisitorGenderId,*/
+                    visitorGender: searchModel.SearchVisitorGender,
                     pageIndex: searchModel.Page - 1,
                     pageSize: searchModel.PageSize
                 );

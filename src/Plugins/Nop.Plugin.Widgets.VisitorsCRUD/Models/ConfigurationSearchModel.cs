@@ -14,8 +14,9 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Models
         [NopResourceDisplayName("Visitor Name")]
         public string SearchVisitorName { get; set; }
 
-        /*public string SearchVisitorGender { get; set; }
+        [NopResourceDisplayName("Select Gender")]
+        public string SearchVisitorGender { get; set; }
 
-        public IList<SelectListItem> AvailableVisitorGenderOptions { get; set; }*/
+        public IList<SelectListItem> AvailableVisitorGenderOptions { get; set; }
     }
 }
