@@ -19,7 +19,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Service
         /// A task that represents the asynchronous operation
         /// The task result contains the categories
         /// </returns>
-        Task<IPagedList<Visitor>> GetAllVisitorsAsync(string visitorName, string visitorGender, int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Visitor>> GetAllVisitorsAsync(string visitorName, string visitorGender, bool visitorActiveStatus, int pageIndex = 0, int pageSize = int.MaxValue);
         //Get All Visitors
         Task<IPagedList<Visitor>> GetAllVisitorsAsync();
 

@@ -18,5 +18,8 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Models
         public string SearchVisitorGender { get; set; }
 
         public IList<SelectListItem> AvailableVisitorGenderOptions { get; set; }
+
+        [NopResourceDisplayName("Select Active Status")]
+        public bool SearchVisitorActiveStatus { get; set; }
     }
 }

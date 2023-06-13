@@ -14,5 +14,6 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Domain
         public int Age { get; set; }
         public string Gender { get; set; }
         public string Phone { get; set; }
+        public bool IsActive { get; set; }
     }
 }

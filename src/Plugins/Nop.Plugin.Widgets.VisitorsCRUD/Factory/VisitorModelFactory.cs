@@ -49,7 +49,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
                 new SelectListItem { Text = "Male", Value = "Male" },
                 new SelectListItem { Text = "Female", Value = "Female" },
                 new SelectListItem { Text = "Other", Value = "Other" }
-            };            
+            };
 
             //prepare page parameters
             searchModel.SetGridPageSize();
@@ -66,6 +66,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             var visitors = await _visitorService.GetAllVisitorsAsync(
                     visitorName: searchModel.SearchVisitorName,
                     visitorGender: searchModel.SearchVisitorGender,
+                    visitorActiveStatus: searchModel.SearchVisitorActiveStatus,
                     pageIndex: searchModel.Page - 1,
                     pageSize: searchModel.PageSize
                 );
@@ -86,7 +87,8 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
                         Age = visitor.Age,
                         SeName = "" + visitor.Name + visitor.Age,
                         Gender = visitor.Gender,
-                        Phone = visitor.Phone
+                        Phone = visitor.Phone,
+                        IsActive = visitor.IsActive
                     };
                     return configurationModel;
                 });
@@ -123,6 +125,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             newVisitor.Phone = configurationModel.Phone;
             newVisitor.Age = configurationModel.Age;
             newVisitor.Gender = configurationModel.Gender;
+            newVisitor.IsActive = configurationModel.IsActive;
 
             await _visitorService.AddVisitorAsync(newVisitor);
 
@@ -138,7 +141,8 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
                 Name = getVisitor.Name,
                 Age = getVisitor.Age,
                 Gender = getVisitor.Gender,               
-                Phone = getVisitor.Phone
+                Phone = getVisitor.Phone,
+                IsActive = getVisitor.IsActive
             };
 
             sendVisitor.GenderSelection = new List<SelectListItem>
@@ -160,6 +164,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             newVisitor.Phone = configurationModel.Phone;
             newVisitor.Age = configurationModel.Age;
             newVisitor.Gender = configurationModel.Gender;
+            newVisitor.IsActive = configurationModel.IsActive;
 
             await _visitorService.UpdateVisitorAsync(newVisitor);
 

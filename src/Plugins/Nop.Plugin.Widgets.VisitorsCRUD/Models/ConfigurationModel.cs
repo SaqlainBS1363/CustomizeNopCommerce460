@@ -23,5 +23,8 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Models
         [DataType(DataType.PhoneNumber)]
         [NopResourceDisplayName("Phone")]
         public string Phone { get; set; }
+
+        [NopResourceDisplayName("Active")]
+        public bool IsActive { get; set; }
     }
 }

@@ -11,7 +11,7 @@ using Nop.Plugin.Widgets.VisitorsCrud.Domain;
 namespace Nop.Plugin.Widgets.VisitorsCrud.Data.Migrations
 {
     [NopMigration("2023-06-06 15:45:00:9043677", "Custom Visitor base schema", MigrationProcessType.Installation)]
-    public class DbMigration : AutoReversingMigration
+    public class VisitorDBMigration : AutoReversingMigration
     {
         public override void Up()
         {
