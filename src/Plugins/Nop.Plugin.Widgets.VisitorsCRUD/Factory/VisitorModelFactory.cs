@@ -8,8 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Plugin.Widgets.VisitorsCrud.Domain;
 using Nop.Plugin.Widgets.VisitorsCrud.Models;
 using Nop.Plugin.Widgets.VisitorsCrud.Service;
+using Nop.Services.Localization;
+using Nop.Services.Seo;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Catalog;
+using Nop.Web.Framework.Factories;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Models.Extensions;
 
@@ -18,10 +21,67 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
     public class VisitorModelFactory : IVisitorModelFactory
     {
         private readonly IVisitorService _visitorService;
+        private readonly IUrlRecordService _urlRecordService;
+        private readonly ILocalizationService _localizationService;
+        private readonly ILocalizedModelFactory _localizedModelFactory;
 
-        public VisitorModelFactory(IVisitorService visitorService)
+        public VisitorModelFactory(IVisitorService visitorService, 
+            IUrlRecordService urlRecordService, 
+            ILocalizationService localizationService, 
+            ILocalizedModelFactory localizedModelFactory)
         {
             _visitorService = visitorService;
+            _urlRecordService = urlRecordService;
+            _localizationService = localizationService;
+            _localizedModelFactory = localizedModelFactory;
+        }
+
+        /// <summary>
+        /// Prepare visitor model (configuration model)
+        /// </summary>
+        /// <param name="model">configuration model</param>
+        /// <param name="visitor">visitor</param>
+        /// <param name="excludeProperties">Whether to exclude populating of some properties of model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the configuration model
+        /// </returns>
+        public async Task<ConfigurationModel> PrepareVisitorModelAsync(ConfigurationModel model, Visitor visitor, bool excludeProperties = false)
+        {
+            Func<VisitorLocalizedModel, int, Task> localizedModelConfiguration = null;
+
+            if (visitor != null)
+            {
+                //fill in model values from the entity
+                if (model == null)
+                {
+                    model = new ConfigurationModel();
+
+                    model.Name = visitor.Name;
+                    model.Phone = visitor.Phone;
+                    model.Age = visitor.Age;
+                    model.Gender = visitor.Gender;
+                    model.IsActive = visitor.IsActive;
+
+                    /*model = visitor.ToModel<ConfigurationModel>();*/
+
+                    model.SeName = await _urlRecordService.GetSeNameAsync(visitor, 0, true, false);
+                }
+
+                //define localized model configuration action
+                localizedModelConfiguration = async (locale, languageId) =>
+                {
+                    locale.Name = await _localizationService.GetLocalizedAsync(visitor, entity => entity.Name, languageId, false, false);
+                };
+            }
+
+            //prepare localized models
+            if (!excludeProperties)
+                model.Locales = await _localizedModelFactory.PrepareLocalizedModelsAsync(localizedModelConfiguration);
+
+            model = await PrepareVisitorModelAsync(model);
+
+            return model;
         }
 
         public async Task<ConfigurationModel> PrepareVisitorModelAsync(ConfigurationModel configurationModel)
@@ -130,6 +190,13 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             await _visitorService.AddVisitorAsync(newVisitor);
 
             return newVisitor;
+        }
+
+        public async Task<Visitor> GetVisitorAsync(int Id)
+        {
+            var getVisitor = _visitorService.GetSingleVisitorAsync(Id).Result;
+            
+            return getVisitor;
         }
 
         public async Task<ConfigurationModel> GetVisitorModelAsync(int Id)

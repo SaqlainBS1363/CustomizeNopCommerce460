@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nop.Core;
+using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Seo;
 
 namespace Nop.Plugin.Widgets.VisitorsCrud.Domain
 {
-    public class Visitor : BaseEntity, ISlugSupported
+    public class Visitor : BaseEntity, ISlugSupported, ILocalizedEntity
     {
         public string Name { get; set; }
         public int Age { get; set; }

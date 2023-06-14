@@ -28,19 +28,38 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
         private readonly IPermissionService _permissionService;
         private readonly IVisitorModelFactory _visitorModelFactory;
         private readonly IUrlRecordService _urlRecordService;
+        private readonly ILocalizedEntityService _localizedEntityService;
+
 
 
         public WidgetsVisitorsCrudController(ILocalizationService localizationService,
             INotificationService notificationService,
             IVisitorModelFactory visitorModelFactory,
             IUrlRecordService urlRecordService,
-            IPermissionService permissionService)
+            IPermissionService permissionService,
+            ILocalizedEntityService localizedEntityService)
         {
             _localizationService = localizationService;
             _notificationService = notificationService;
             _visitorModelFactory = visitorModelFactory;
             _urlRecordService = urlRecordService;
             _permissionService = permissionService;
+            _localizedEntityService = localizedEntityService;
+        }
+
+        protected virtual async Task UpdateLocalesAsync(Visitor visitor, ConfigurationModel model)
+        {
+            foreach (var localized in model.Locales)
+            {
+                await _localizedEntityService.SaveLocalizedValueAsync(visitor,
+                    x => x.Name,
+                    localized.Name,
+                    localized.LanguageId);
+
+                //search engine name
+                var seName = await _urlRecordService.ValidateSeNameAsync(visitor, localized.SeName, localized.Name, false);
+                await _urlRecordService.SaveSlugAsync(visitor, seName, localized.LanguageId);
+            }
         }
 
         public virtual async Task<IActionResult> Configure()
@@ -72,7 +91,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var model = await _visitorModelFactory.PrepareVisitorModelAsync(new ConfigurationModel());
+            var model = await _visitorModelFactory.PrepareVisitorModelAsync(new ConfigurationModel(), null);
 
             return View("~/Plugins/Widgets.VisitorsCrud/Views/Create.cshtml", model);
         }
@@ -91,8 +110,10 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
                 //search engine name
                 model.SeName = "" + model.Name + model.Age;
                 model.SeName = await _urlRecordService.ValidateSeNameAsync(visitor, model.SeName, visitor.Name, true);
-
                 await _urlRecordService.SaveSlugAsync(visitor, model.SeName, 0);
+
+                //locales
+                await UpdateLocalesAsync(visitor, model);
 
                 ViewBag.RefreshPage = true;
 
@@ -112,9 +133,12 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var visitor = await _visitorModelFactory.GetVisitorModelAsync(Id);
+            var visitor = await _visitorModelFactory.GetVisitorAsync(Id);
 
-            return View("~/Plugins/Widgets.VisitorsCrud/Views/Edit.cshtml", visitor);
+            //prepare model
+            var model = await _visitorModelFactory.PrepareVisitorModelAsync(null, visitor);
+
+            return View("~/Plugins/Widgets.VisitorsCrud/Views/Edit.cshtml", model);
         }
 
         [HttpPost]
@@ -130,8 +154,10 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
                 //search engine name
                 model.SeName = "" + model.Name + model.Age;
                 model.SeName = await _urlRecordService.ValidateSeNameAsync(visitor, model.SeName, visitor.Name, true);
-
                 await _urlRecordService.SaveSlugAsync(visitor, model.SeName, 0);
+
+                //locales
+                await UpdateLocalesAsync(visitor, model);
 
                 ViewBag.RefreshPage = true;
 

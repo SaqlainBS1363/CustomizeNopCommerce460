@@ -11,6 +11,8 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
 {
     public interface IVisitorModelFactory
     {
+        Task<ConfigurationModel> PrepareVisitorModelAsync(ConfigurationModel model, Visitor visitor, bool excludeProperties = false);
+
         Task<ConfigurationModel> PrepareVisitorModelAsync(ConfigurationModel configurationModel);
 
         Task<ConfigurationSearchModel> PrepareVisitorSearchModelAsync(ConfigurationSearchModel searchModel);
@@ -20,6 +22,8 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
         Task<IEnumerable<PublicInfoModel>> PreparePublicVisitorModelListAsync();
 
         Task<Visitor> AddVisitorModelAsync(ConfigurationModel configurationModel);
+
+        Task<Visitor> GetVisitorAsync(int Id);
 
         Task<ConfigurationModel> GetVisitorModelAsync(int Id);
 

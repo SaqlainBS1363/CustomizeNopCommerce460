@@ -6,7 +6,10 @@ using System.Collections.Generic;
 
 namespace Nop.Plugin.Widgets.VisitorsCrud.Models
 {
-    public partial record ConfigurationModel : BaseNopEntityModel
+    /// <summary>
+    /// Represents a visitor model
+    /// </summary>
+    public partial record ConfigurationModel : BaseNopEntityModel, ILocalizedModel<VisitorLocalizedModel>
     {
         [NopResourceDisplayName("Name")]
         public string Name { get; set; }
@@ -26,5 +29,18 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Models
 
         [NopResourceDisplayName("Active")]
         public bool IsActive { get; set; }
+
+        public IList<VisitorLocalizedModel> Locales { get; set; }
+
+    }
+
+    public partial record VisitorLocalizedModel : ILocalizedLocaleModel
+    {
+        public int LanguageId { get; set; }
+
+        [NopResourceDisplayName("Name")]
+        public string Name { get; set; }
+
+        public string SeName { get; set; }
     }
 }

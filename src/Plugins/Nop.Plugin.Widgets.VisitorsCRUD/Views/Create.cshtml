@@ -1,4 +1,5 @@
-﻿@model Nop.Plugin.Widgets.VisitorsCrud.Models.ConfigurationModel
+﻿@using Nop.Plugin.Widgets.VisitorsCrud.Models
+@model ConfigurationModel
 
 @{
     Layout = "_AdminPopupLayout";
@@ -33,7 +34,35 @@
                         @T("Plugins.Widgets.VisitorsCrud.InsertVisitorPageTitle")
                     </div>
                     <div class="card-body">
-                        <div class="form-group row">
+
+                        @(await Html.LocalizedEditorAsync<ConfigurationModel, VisitorLocalizedModel>("visitor-name-localized",
+                            @<div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="@Model.Locales[item].Name" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="@Model.Locales[item].Name" />
+                                        <span asp-validation-for="@Model.Locales[item].Name"></span>
+                                    </div>
+                                </div>
+                                <input type="hidden" asp-for="@Model.Locales[item].LanguageId" />
+                            </div>
+                            ,
+                            @<div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="Name" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="Name" asp-required="true" />
+                                        <span asp-validation-for="Name"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+
+                        @*<div class="form-group row">
                             <div class="col-md-3">
                                 <nop-label asp-for="Name" />
                             </div>
@@ -41,7 +70,7 @@
                                 <nop-editor asp-for="Name" asp-required="true" />
                                 <span asp-validation-for="Name"></span>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <nop-label asp-for="Age" />
