@@ -23,7 +23,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
 
         Task<ConfigurationModel> GetVisitorModelAsync(int Id);
 
-        Task<ConfigurationModel> EditVisitorModelAsync(ConfigurationModel configurationModel);
+        Task<Visitor> EditVisitorModelAsync(ConfigurationModel configurationModel);
 
         Task<ConfigurationModel> DeleteVisitorModelAsync(int Id);
     }

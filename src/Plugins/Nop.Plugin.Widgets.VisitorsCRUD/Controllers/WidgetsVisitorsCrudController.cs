@@ -123,7 +123,22 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            await _visitorModelFactory.EditVisitorModelAsync(model);
+            if (ModelState.IsValid)
+            {
+                var visitor = await _visitorModelFactory.EditVisitorModelAsync(model);
+
+                //search engine name
+                model.SeName = "" + model.Name + model.Age;
+                model.SeName = await _urlRecordService.ValidateSeNameAsync(visitor, model.SeName, visitor.Name, true);
+
+                await _urlRecordService.SaveSlugAsync(visitor, model.SeName, 0);
+
+                ViewBag.RefreshPage = true;
+
+                var model1 = await _visitorModelFactory.PrepareVisitorModelAsync(model);
+
+                return View("~/Plugins/Widgets.VisitorsCrud/Views/Edit.cshtml", model1);
+            }
 
             /*_notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));*/
 

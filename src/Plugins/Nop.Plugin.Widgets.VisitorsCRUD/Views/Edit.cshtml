@@ -2,15 +2,30 @@
 @model ConfigurationModel
 
 @{
-    Layout = "_ConfigurePlugin";
+    Layout = "_AdminPopupLayout";
     //active menu item (system name)
     NopHtml.SetActiveMenuItemSystemName("Widgets.VisitorsCrud");
 }
 
 <hr />
-<form asp-controller="WidgetsVisitorsCrud" asp-action="Edit" method="post">
+<form asp-controller="WidgetsVisitorsCrud" asp-action="Edit" method="post"
+      asp-route-btnId="@Context.Request.Query["btnId"]">
+
     <div asp-validation-summary="ModelOnly"></div>
     <input asp-for="Id" type="hidden" />
+
+    @if (ViewBag.RefreshPage == true)
+    {
+        <script>
+            try {
+                window.opener.document.getElementById("@(Context.Request.Query["btnId"])").click();
+            }
+            catch (e) {
+            }
+            window.close();
+        </script>
+    }
+
     <section class="content">
         <div class="container-fluid">
             <div class="cards-group">

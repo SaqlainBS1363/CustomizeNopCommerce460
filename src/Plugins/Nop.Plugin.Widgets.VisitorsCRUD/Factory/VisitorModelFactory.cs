@@ -156,7 +156,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             return sendVisitor;
         }
 
-        public async Task<ConfigurationModel> EditVisitorModelAsync(ConfigurationModel configurationModel)
+        public async Task<Visitor> EditVisitorModelAsync(ConfigurationModel configurationModel)
         {
             var newVisitor = _visitorService.GetSingleVisitorAsync(configurationModel.Id).Result;
 
@@ -168,7 +168,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
 
             await _visitorService.UpdateVisitorAsync(newVisitor);
 
-            return null;
+            return newVisitor;
         }
 
         public async Task<ConfigurationModel> DeleteVisitorModelAsync(int Id)

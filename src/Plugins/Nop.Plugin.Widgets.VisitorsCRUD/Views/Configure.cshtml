@@ -2,13 +2,13 @@
 @model ConfigurationSearchModel
 
 @{
-    Layout = "_ConfigurePlugin";
+    Layout = "_AdminLayout";
     //active menu item (system name)
     NopHtml.SetActiveMenuItemSystemName("Widgets.VisitorsCrud");
 }
 
 @{
-    const string hideSearchBlockAttributeName = "CategoryPage.HideSearchBlock";
+    const string hideSearchBlockAttributeName = "VisitorPage.HideSearchBlock";
     var hideSearchBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSearchBlockAttributeName);
 }
 
@@ -17,13 +17,13 @@
         @T("Plugins.Widgets.VisitorsCrud.AllVisitorsPageTitle")
     </h1>
     <div class="float-right">
-
-        @*<a asp-controller="WidgetsVisitorsCrud" asp-action="Create" class="btn btn-primary" method="Get"><i class="fas fa-plus-square"></i>Add new visitor</a>*@
         
-        <button type="submit" id="btnAddNewVisitor" onclick="javascript:OpenWindow('@(Url.Action("Create", "WidgetsVisitorsCrud", new { btnId = "btnRefreshVisitors", formId = "visitor-form"}))', 800, 600, true); return false;" class="btn btn-primary">
+        <button type="submit" id="btnAddNewVisitor" onclick="javascript:OpenWindow('@(Url.Action("Create", "WidgetsVisitorsCrud", new { btnId = "btnRefreshVisitors"}))', 800, 500, true); return false;" class="btn btn-primary">
             Add new visitor
         </button>
+        
         <button type="submit" id="btnRefreshVisitors" style="display: none"></button>
+
         <script>
             $(document).ready(function () {
                 $('#btnRefreshVisitors').click(function () {
@@ -40,7 +40,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="form-horizontal">
-            <div class="cards-group">
+            <div class="cards-group" >
                 <div class="card card-default card-search">
                     <div class="card-body">
                         <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
@@ -161,18 +161,14 @@
                                     Title = T("Admin.Common.Edit").Text,
                                     Width = "50",
                                     ClassName =  NopColumnClassDefaults.Button,
-                                    Render = new RenderButtonEdit(new DataUrl("Edit"))
+                                    Render = new RenderCustom("renderPriceColumnEdit")
                                 }
                             }
                         })
 
                         <script>
-                            function renderColumnConfigure(data, type, row, meta) {
-                                if (row.ConfigurationUrl && row.ConfigurationUrl.length > 0) {
-                                    return '<a class="btn btn-default" href="' + row.ConfigurationUrl + '"><i class="fas fa-cog"></i>@T("Admin.ContentManagement.Widgets.Configure").Text</a>';
-                                } else {
-                                    return '';
-                                }
+                            function renderPriceColumnEdit(data, type, row, meta) {
+                                return '<button onclick=\"javascript:OpenWindow(\'@Url.Content("~/Admin/WidgetsVisitorsCrud/Edit/")' + data + '?btnId=btnRefreshVisitors\', 800, 500, true); return false;\" class="btn btn-default"><i class="fas fa-pencil-alt"></i>@T("Admin.Common.Edit").Text</button>';
                             }
                         </script>
                     </div>
