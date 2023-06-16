@@ -15,6 +15,7 @@ using Nop.Web.Areas.Admin.Models.Catalog;
 using Nop.Web.Framework.Factories;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Models.Extensions;
+using Nop.Web.Models.Customer;
 
 namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
 {
@@ -35,6 +36,24 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
             _localizationService = localizationService;
             _localizedModelFactory = localizedModelFactory;
         }
+
+        public virtual async Task<CustomerNavigationModel> PrepareCustomerNavigationModelForVisitorAsync(int selectedTabId = 0)
+        {
+            var model = new CustomerNavigationModel();
+
+            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
+            {
+                RouteName = "VisitorList",
+                Title = "Visitor List",
+                Tab = sizeof(CustomerNavigationEnum) * 10,
+                ItemClass = "visitor-list"
+            });
+
+            model.SelectedTab = selectedTabId;
+
+            return model;
+        }
+
 
         /// <summary>
         /// Prepare visitor model (configuration model)
