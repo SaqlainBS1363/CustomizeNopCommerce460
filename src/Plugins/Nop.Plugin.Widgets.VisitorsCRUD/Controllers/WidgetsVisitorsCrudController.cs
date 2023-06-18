@@ -49,16 +49,19 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Controllers
 
         protected virtual async Task UpdateLocalesAsync(Visitor visitor, ConfigurationModel model)
         {
-            foreach (var localized in model.Locales)
+            if (model.Locales != null)
             {
-                await _localizedEntityService.SaveLocalizedValueAsync(visitor,
-                    x => x.Name,
-                    localized.Name,
-                    localized.LanguageId);
+                foreach (var localized in model.Locales)
+                {
+                    await _localizedEntityService.SaveLocalizedValueAsync(visitor,
+                        x => x.Name,
+                        localized.Name,
+                        localized.LanguageId);
 
-                //search engine name
-                var seName = await _urlRecordService.ValidateSeNameAsync(visitor, localized.SeName, localized.Name, false);
-                await _urlRecordService.SaveSlugAsync(visitor, seName, localized.LanguageId);
+                    //search engine name
+                    var seName = await _urlRecordService.ValidateSeNameAsync(visitor, localized.SeName, localized.Name, false);
+                    await _urlRecordService.SaveSlugAsync(visitor, seName, localized.LanguageId);
+                }
             }
         }
 
