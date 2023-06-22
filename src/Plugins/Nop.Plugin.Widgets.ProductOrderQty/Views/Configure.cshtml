@@ -1,0 +1,179 @@
+﻿@using Nop.Plugin.Widgets.VisitorsCrud.Models
+@model ConfigurationSearchModel
+
+@{
+    Layout = "_AdminLayout";
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName("Widgets.VisitorsCrud");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "VisitorPage.HideSearchBlock";
+    var hideSearchBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSearchBlockAttributeName);
+}
+
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        @T("Plugins.Widgets.VisitorsCrud.AllVisitorsPageTitle")
+    </h1>
+    <div class="float-right">
+        
+        <button type="submit" id="btnAddNewVisitor" onclick="javascript:OpenWindow('@(Url.Action("Create", "WidgetsVisitorsCrud", new { btnId = "btnRefreshVisitors"}))', 800, 500, true); return false;" class="btn btn-primary">
+            Add new visitor
+        </button>
+        
+        <button type="submit" id="btnRefreshVisitors" style="display: none"></button>
+
+        <script>
+            $(document).ready(function () {
+                $('#btnRefreshVisitors').click(function () {
+                    updateTable('#visitors-grid');
+                    //return false to don't reload a page
+                    return false;
+                });
+            });
+        </script>
+    
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="cards-group" >
+                <div class="card card-default card-search">
+                    <div class="card-body">
+                        <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                            <div class="search-text">@T("Admin.Common.Search")</div>
+                            <div class="icon-search"><i class="fas fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="far fa-angle-@(!hideSearchBlock ? "up" : "down")" aria-hidden="true"></i></div>
+                        </div>
+
+                        <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchVisitorName" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchVisitorName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchVisitorGender" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-select asp-for="SearchVisitorGender"  asp-items="Model.AvailableVisitorGenderOptions" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchVisitorActiveStatus" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchVisitorActiveStatus" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="text-center col-12">
+                                    <button type="button" id="search-categories" class="btn btn-primary btn-search"><i class="fas fa-search"></i>@T("Admin.Common.Search")</button>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+                
+                <div class="card card-default">
+                    <div class="card-body">
+
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                        {
+                            Name = "visitors-grid",
+                            UrlRead = new DataUrl("Configure", "WidgetsVisitorsCrud", null),
+                            /*UrlUpdate = new DataUrl("Edit", "WidgetsVisitorsCrud", null),*/
+                            SearchButtonId = "search-categories",
+                            Length = Model.PageSize,
+                            LengthMenu = Model.AvailablePageSizes,
+                            Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.SearchVisitorName)),
+                                new FilterParameter(nameof(Model.SearchVisitorGender)),
+                                new FilterParameter(nameof(Model.SearchVisitorActiveStatus), typeof(bool))
+                            },
+                            ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(ConfigurationModel.Name))
+                                {
+                                    Title = "Name",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Width = "100"
+                                },
+                                new ColumnProperty(nameof(ConfigurationModel.Age))
+                                {
+                                    Title = "Age",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Width = "100"
+                                },
+                                new ColumnProperty(nameof(ConfigurationModel.Gender))
+                                {
+                                    Title = "Gender",
+                                    Width = "100",
+                                    ClassName = NopColumnClassDefaults.CenterAll
+                                    /*Editable = true,
+                                    EditType = EditType.Number*/
+                                },
+                                new ColumnProperty(nameof(ConfigurationModel.Phone))
+                                {
+                                    Title = "Phone",
+                                    Width = "100",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    /*Render = new RenderBoolean(),
+                                    Editable = true,
+                                    EditType = EditType.Checkbox*/
+                                },
+                                new ColumnProperty(nameof(ConfigurationModel.IsActive))
+                                {
+                                    Title = "Active Only",
+                                    Width = "50",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Render = new RenderBoolean()
+                                    /*Editable = true,
+                                    EditType = EditType.Checkbox*/
+                                },
+                                new ColumnProperty(nameof(ConfigurationModel.Id))
+                                {
+                                    Title = "Details",
+                                    Width = "50",
+                                    ClassName =  NopColumnClassDefaults.Button,
+                                    Render = new RenderButtonView(new DataUrl("Delete"))
+                                },
+                                new ColumnProperty(nameof(ConfigurationModel.Id))
+                                {
+                                    Title = T("Admin.Common.Edit").Text,
+                                    Width = "50",
+                                    ClassName =  NopColumnClassDefaults.Button,
+                                    Render = new RenderCustom("renderPriceColumnEdit")
+                                }
+                            }
+                        })
+
+                        <script>
+                            function renderPriceColumnEdit(data, type, row, meta) {
+                                return '<button onclick=\"javascript:OpenWindow(\'@Url.Content("~/Admin/WidgetsVisitorsCrud/Edit/")' + data + '?btnId=btnRefreshVisitors\', 800, 500, true); return false;\" class="btn btn-default"><i class="fas fa-pencil-alt"></i>@T("Admin.Common.Edit").Text</button>';
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
