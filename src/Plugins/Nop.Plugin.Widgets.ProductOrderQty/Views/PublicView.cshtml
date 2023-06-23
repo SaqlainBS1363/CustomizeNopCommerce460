@@ -1,13 +1,15 @@
 ﻿@using Nop.Plugin.Widgets.ProductOrderQty.Models
 @model ProductOrderQtyModel
 
+@if (@Model.FirstOrderQty > 0 && @Model.ReOrderQty > 0)
+{
+    <div class="first-order-quantity">
+        <span>@T("Plugins.Widgets.ProductOrderQty.FirstOrderQuantity"):</span>
+        <span>@Model.FirstOrderQty</span>
+    </div>
 
-<div class="first-order-quantity">
-    <span>@T("Plugins.Widgets.ProductOrderQty.FirstOrderQuantity"):</span>
-    <span>@Model.FirstOrderQty</span>
-</div>
-
-<div class="re-order-quantity">
-    <span>@T("Plugins.Widgets.ProductOrderQty.ReOrderQuantity"):</span>
-    <span>@Model.ReOrderQty</span>
-</div>
+    <div class="re-order-quantity">
+        <span>@T("Plugins.Widgets.ProductOrderQty.ReOrderQuantity"):</span>
+        <span>@Model.ReOrderQty</span>
+    </div>
+}

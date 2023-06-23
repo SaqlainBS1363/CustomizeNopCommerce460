@@ -69,8 +69,7 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Components
                     return Content("");
                 }
             }
-            else if (widgetZone.Equals(PublicWidgetZones.ProductPriceBottom) ||
-                widgetZone.Equals(PublicWidgetZones.ProductDetailsBottom))
+            else if (widgetZone.Equals(PublicWidgetZones.ProductPriceBottom))
             {
                 var model = additionalData as ProductDetailsModel;
 
