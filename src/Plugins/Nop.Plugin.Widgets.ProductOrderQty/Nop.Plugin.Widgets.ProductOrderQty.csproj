@@ -25,12 +25,9 @@
 
   <ItemGroup>
     <None Remove="plugin.json" />
-    <None Remove="Views\Configure.cshtml" />
     <None Remove="Views\CreateOrUpdate.cshtml" />
-    <None Remove="Views\Delete.cshtml" />
-    <None Remove="Views\Edit.cshtml" />
-    <None Remove="Views\PublicInfo.cshtml" />
-    <None Remove="Views\VisitorList.cshtml" />
+    <None Remove="Views\PublicView.cshtml" />
+    <None Remove="Views\_CreateOrUpdate.ProductOrderQty.cshtml" />
     <None Remove="Views\_ViewImports.cshtml" />
   </ItemGroup>
   
@@ -43,22 +40,13 @@
     <Content Include="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Delete.cshtml">
+    <Content Include="Views\PublicView.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Edit.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Content>    
     <Content Include="Views\CreateOrUpdate.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>    
-    <Content Include="Views\Configure.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>    
-    <Content Include="Views\VisitorList.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\PublicInfo.cshtml">
+    <Content Include="Views\_CreateOrUpdate.ProductOrderQty.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\_ViewImports.cshtml">

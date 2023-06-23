@@ -30,12 +30,12 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Service
                 return query;
             });
 
-            if(productOrderQty == null)
+            if(productOrderQty.Any())
             {
-                return null;
+                return productOrderQty[0];
             }
 
-            return productOrderQty[0];
+            return new ProductOrderQtyEntity();
         }
 
         public async Task AddProductOrderQtyEntityAsync(ProductOrderQtyEntity productOrderQty)

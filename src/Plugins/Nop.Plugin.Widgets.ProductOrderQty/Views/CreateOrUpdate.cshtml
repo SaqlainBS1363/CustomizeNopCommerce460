@@ -1,44 +1,15 @@
-﻿@model Nop.Plugin.Widgets.ProductOrderQty.Models.ProductOrderQtyModel
+﻿@using Nop.Plugin.Widgets.ProductOrderQty.Models
+@model ProductOrderQtyModel
 
 @{
-    //active menu item (system name)
-    NopHtml.SetActiveMenuItemSystemName("Products");
+    const string hideInfoBlockAttributeName = "ProductPage.HideInfoBlock";
+    var customer = await workContext.GetCurrentCustomerAsync();
+    var hideInfoBlock = await genericAttributeService.GetAttributeAsync<bool>(customer, hideInfoBlockAttributeName);
 }
 
-<form asp-controller="ProductOrderQty" asp-action="CreateOrUpdate" method="post" id="product-form">
-    <input asp-for="Id" type="hidden" />
 
-    <div class="content-header clearfix">
-        <div class="float-right">
-            <button type="submit" name="save" class="btn btn-primary">
-                <i class="far fa-save"></i>
-                @T("Admin.Common.Save")
-            </button>
-        </div>
-    </div>
-    <div class="card-body">
-        <div id="product-details-area">
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
 
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <nop-label asp-for="FirstOrderQty" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="FirstOrderQty" asp-required="true" />
-                    <span asp-validation-for="FirstOrderQty"></span>
-                </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <nop-label asp-for="ReOrderQty" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="ReOrderQty" asp-required="true" />
-                    <span asp-validation-for="ReOrderQty"></span>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</form>
+<nop-card asp-name="product-order-qty" asp-icon="fas fa-sort-amount-up" asp-title="@T("Plugins.Widgets.ProductOrderQty.FormTitle")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("~/Plugins/Widgets.ProductOrderQty/Views/_CreateOrUpdate.ProductOrderQty.cshtml", Model)</nop-card>

@@ -22,19 +22,10 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Factory
     public class ProductOrderQtyModelFactory : IProductOrderQtyModelFactory
     {
         private readonly IProductOrderQtyService _productOrderQtyService;
-        private readonly IUrlRecordService _urlRecordService;
-        private readonly ILocalizationService _localizationService;
-        private readonly ILocalizedModelFactory _localizedModelFactory;
 
-        public ProductOrderQtyModelFactory(IProductOrderQtyService productOrderQtyService, 
-            IUrlRecordService urlRecordService, 
-            ILocalizationService localizationService, 
-            ILocalizedModelFactory localizedModelFactory)
+        public ProductOrderQtyModelFactory(IProductOrderQtyService productOrderQtyService)
         {
             _productOrderQtyService = productOrderQtyService;
-            _urlRecordService = urlRecordService;
-            _localizationService = localizationService;
-            _localizedModelFactory = localizedModelFactory;
         }
 
         public async Task<ProductOrderQtyModel> GetProductOrderQtyModelAsync(int ProductId)
@@ -71,8 +62,9 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Factory
 
         public async Task<ProductOrderQtyEntity> EditProductOrderQtyModelAsync(ProductOrderQtyModel productOrderQtyModel)
         {
-            var newProductOrderQty = _productOrderQtyService.GetProductOrderQtyEntityAsync(productOrderQtyModel.Id).Result;
+            var newProductOrderQty = new ProductOrderQtyEntity();
 
+            newProductOrderQty.Id = productOrderQtyModel.Id;
             newProductOrderQty.ProductId = productOrderQtyModel.ProductId;
             newProductOrderQty.FirstOrderQty = productOrderQtyModel.FirstOrderQty;
             newProductOrderQty.ReOrderQty= productOrderQtyModel.ReOrderQty;

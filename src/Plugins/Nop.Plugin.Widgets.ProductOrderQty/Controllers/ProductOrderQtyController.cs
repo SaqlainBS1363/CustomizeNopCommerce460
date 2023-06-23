@@ -23,31 +23,19 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Controllers
     [AutoValidateAntiforgeryToken]
     public class ProductOrderQtyController : BasePluginController
     {
-        private readonly ILocalizationService _localizationService;
-        private readonly INotificationService _notificationService;
         private readonly IPermissionService _permissionService;
         private readonly IProductOrderQtyModelFactory _productOrderQtyModelFactory;
-        private readonly IUrlRecordService _urlRecordService;
-        private readonly ILocalizedEntityService _localizedEntityService;
 
 
-        public ProductOrderQtyController(ILocalizationService localizationService,
-            INotificationService notificationService,
-            IProductOrderQtyModelFactory productOrderQtyModelFactory,
-            IUrlRecordService urlRecordService,
-            IPermissionService permissionService,
-            ILocalizedEntityService localizedEntityService)
+        public ProductOrderQtyController(IProductOrderQtyModelFactory productOrderQtyModelFactory,
+            IPermissionService permissionService)
         {
-            _localizationService = localizationService;
-            _notificationService = notificationService;
             _productOrderQtyModelFactory = productOrderQtyModelFactory;
-            _urlRecordService = urlRecordService;
             _permissionService = permissionService;
-            _localizedEntityService = localizedEntityService;
         }
 
 
-        /*[HttpGet]
+        [HttpGet]
         public async Task<IActionResult> CreateOrUpdate()
         {
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
@@ -56,68 +44,34 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Controllers
             var model = new ProductOrderQtyModel();
 
             return View(model);
-        }*/
+        }
 
-        /*[HttpPost]
-        [FormValueRequired("save")]
-        public async Task<IActionResult> CreateOrUpdate(ProductOrderQtyModel model)
+        [HttpPost]
+        public async Task<IActionResult> CreateOrUpdate(int productId, int firstOrderQty, int reOrderQty)
         {
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageCategories))
                 return AccessDeniedView();
 
+            var checkProduct = await _productOrderQtyModelFactory.GetProductOrderQtyModelAsync(productId);
 
-        }*/
-
-        /*[HttpGet]
-        public async Task<IActionResult> Edit(int Id)
-        {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
-            var visitor = await _productOrderQtyModelFactory.GetProductOrderQtyModelAsync(Id);
-
-            return View(visitor);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(ProductOrderQtyModel model)
-        {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
-            if (ModelState.IsValid)
+            var model = new ProductOrderQtyModel
             {
-                var visitor = await _productOrderQtyModelFactory.EditProductOrderQtyModelAsync(model);
+                ProductId = productId,
+                FirstOrderQty = firstOrderQty,
+                ReOrderQty = reOrderQty
+            };
 
-                return View(visitor);
+            if (checkProduct.Id > 0)
+            {
+                model.Id = checkProduct.Id;
+                await _productOrderQtyModelFactory.EditProductOrderQtyModelAsync(model);
+            }
+            else
+            {
+                await _productOrderQtyModelFactory.AddProductOrderQtyModelAsync(model);
             }
 
-            return RedirectToAction("Configure");
+            return Json(new { Result = true });
         }
-
-
-        [HttpGet]
-        public async Task<IActionResult> Delete(int Id)
-        {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
-            var visitor = await _productOrderQtyModelFactory.GetVisitorModelAsync(Id);
-
-            return View("~/Plugins/Widgets.VisitorsCrud/Views/Delete.cshtml", visitor);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int Id)
-        {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
-            await _productOrderQtyModelFactory.DeleteVisitorModelAsync(Id);
-
-            *//*_notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));*//*
-
-            return RedirectToAction("Configure");
-        }*/
     }
 }

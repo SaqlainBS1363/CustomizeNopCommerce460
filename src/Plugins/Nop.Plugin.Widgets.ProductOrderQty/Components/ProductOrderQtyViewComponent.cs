@@ -7,6 +7,7 @@ using Nop.Plugin.Widgets.ProductOrderQty.Models;
 using Nop.Web.Areas.Admin.Models.Catalog;
 using Nop.Web.Framework.Components;
 using Nop.Web.Framework.Infrastructure;
+using Nop.Web.Models.Catalog;
 
 namespace Nop.Plugin.Widgets.ProductOrderQty.Components
 {
@@ -24,19 +25,78 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Components
         {
             if (widgetZone.Equals(AdminWidgetZones.ProductDetailsBlock))
             {
-                if (additionalData != null)
-                {
-                    var pModel = additionalData as ProductModel;
-                    /*var productExistance = _productOrderQtyModelFactory.GetProductOrderQtyModelAsync(pModel.Id).Result;*/
+                var model = additionalData as ProductModel;
 
-                    //return View("~/Plugins/Widgets.ProductOrderQty/Views/CreateOrUpdate.cshtml", productExistance);
-                    return View("~/Plugins/Widgets.ProductOrderQty/Views/CreateOrUpdate.cshtml", new ProductOrderQtyModel());
+                if (model.Id > 0)
+                {
+                    var productExistance = await _productOrderQtyModelFactory.GetProductOrderQtyModelAsync(model.Id);
+
+                    if (productExistance != null)
+                    {
+                        productExistance.ProductId = model.Id;
+                        return View("~/Plugins/Widgets.ProductOrderQty/Views/CreateOrUpdate.cshtml", productExistance);
+                    }
+                    else
+                    {
+                        return View("~/Plugins/Widgets.ProductOrderQty/Views/CreateOrUpdate.cshtml", new ProductOrderQtyModel());
+                    }
                 }
                 else
-                    return View("~/Plugins/Widgets.ProductOrderQty/Views/CreateOrUpdate.cshtml", new ProductOrderQtyModel());
+                {
+                    return Content("");
+                }
             }
+            else if (widgetZone.Equals(PublicWidgetZones.ProductBoxAddinfoMiddle))
+            {
+                var model = additionalData as ProductOverviewModel;
 
-            return Content("");
+                if (model.Id > 0)
+                {
+                    var productExistance = await _productOrderQtyModelFactory.GetProductOrderQtyModelAsync(model.Id);
+
+                    if (productExistance != null)
+                    {
+                        productExistance.ProductId = model.Id;
+                        return View("~/Plugins/Widgets.ProductOrderQty/Views/PublicView.cshtml", productExistance);
+                    }
+                    else
+                    {
+                        return View("~/Plugins/Widgets.ProductOrderQty/Views/PublicView.cshtml", new ProductOrderQtyModel());
+                    }
+                }
+                else
+                {
+                    return Content("");
+                }
+            }
+            else if (widgetZone.Equals(PublicWidgetZones.ProductPriceBottom) ||
+                widgetZone.Equals(PublicWidgetZones.ProductDetailsBottom))
+            {
+                var model = additionalData as ProductDetailsModel;
+
+                if (model.Id > 0)
+                {
+                    var productExistance = await _productOrderQtyModelFactory.GetProductOrderQtyModelAsync(model.Id);
+
+                    if (productExistance != null)
+                    {
+                        productExistance.ProductId = model.Id;
+                        return View("~/Plugins/Widgets.ProductOrderQty/Views/PublicView.cshtml", productExistance);
+                    }
+                    else
+                    {
+                        return View("~/Plugins/Widgets.ProductOrderQty/Views/PublicView.cshtml", new ProductOrderQtyModel());
+                    }
+                }
+                else
+                {
+                    return Content("");
+                }
+            }
+            else
+            {
+                return Content("");
+            }
         }
     }
 }

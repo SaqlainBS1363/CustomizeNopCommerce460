@@ -41,7 +41,12 @@ namespace Nop.Plugin.Widgets.ProductOrderQty
         /// </returns>
         public Task<IList<string>> GetWidgetZonesAsync()
         {
-            return Task.FromResult<IList<string>>(new List<string> { AdminWidgetZones.ProductDetailsBlock, PublicWidgetZones.ProductDetailsAddInfo });
+            return Task.FromResult<IList<string>>(new List<string> { 
+                AdminWidgetZones.ProductDetailsBlock, 
+                PublicWidgetZones.ProductBoxAddinfoMiddle,
+                PublicWidgetZones.ProductPriceBottom,
+                PublicWidgetZones.ProductDetailsBottom
+            });
         }
 
         /// <summary>
@@ -62,6 +67,7 @@ namespace Nop.Plugin.Widgets.ProductOrderQty
         {
             await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
             {
+                ["Plugins.Widgets.ProductOrderQty.FormTitle"] = "Set Product Order Quantities",
                 ["Plugins.Widgets.ProductOrderQty.FirstOrderQuantity"] = "First Order Quantity",
                 ["Plugins.Widgets.ProductOrderQty.FirstOrderQuantity.Hint"] = "The quantity of a product one customer should must order if it's his/her first time ordering this product.",
                 ["Plugins.Widgets.ProductOrderQty.ReOrderQuantity"] = "Reorder Quantity",
