@@ -10,7 +10,7 @@ using Nop.Web.Infrastructure;
 
 namespace Nop.Plugin.Widgets.VisitorsCrud.Infrastructure
 {
-    public partial class MyRouteProvider : BaseRouteProvider, IRouteProvider
+    /*public partial class MyRouteProvider : BaseRouteProvider, IRouteProvider
     {
 
         public void RegisterRoutes(IEndpointRouteBuilder endpointRouteBuilder)
@@ -23,5 +23,5 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Infrastructure
 
         public int Priority => 0;
 
-    }
+    }*/
 }
