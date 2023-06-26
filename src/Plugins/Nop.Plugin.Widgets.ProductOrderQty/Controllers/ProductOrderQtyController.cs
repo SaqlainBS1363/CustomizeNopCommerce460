@@ -25,17 +25,22 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Controllers
     {
         private readonly IPermissionService _permissionService;
         private readonly IProductOrderQtyModelFactory _productOrderQtyModelFactory;
-
+        private readonly INotificationService _notificationService;
+        private readonly ILocalizationService _localizationService;
 
         public ProductOrderQtyController(IProductOrderQtyModelFactory productOrderQtyModelFactory,
-            IPermissionService permissionService)
+            IPermissionService permissionService,
+            INotificationService notificationService,
+            ILocalizationService localizationService)
         {
             _productOrderQtyModelFactory = productOrderQtyModelFactory;
             _permissionService = permissionService;
+            _notificationService = notificationService;
+            _localizationService = localizationService;
         }
 
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<IActionResult> CreateOrUpdate()
         {
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
@@ -44,7 +49,7 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Controllers
             var model = new ProductOrderQtyModel();
 
             return View(model);
-        }
+        }*/
 
         [HttpPost]
         public async Task<IActionResult> CreateOrUpdate(int productId, int firstOrderQty, int reOrderQty)
@@ -65,10 +70,12 @@ namespace Nop.Plugin.Widgets.ProductOrderQty.Controllers
             {
                 model.Id = checkProduct.Id;
                 await _productOrderQtyModelFactory.EditProductOrderQtyModelAsync(model);
+                //_notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Plugins.Widgets.ProductOrderQty.SaveNotification"));
             }
             else
             {
                 await _productOrderQtyModelFactory.AddProductOrderQtyModelAsync(model);
+                //_notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Plugins.Widgets.ProductOrderQty.SaveNotification"));
             }
 
             return Json(new { Result = true });
