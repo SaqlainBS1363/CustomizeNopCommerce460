@@ -8,8 +8,4 @@
 }
 
 
-<div asp-validation-summary="All"></div>
-<input asp-for="Id" type="hidden" />
-
-
 <nop-card asp-name="product-order-qty" asp-icon="fas fa-sort-amount-up" asp-title="@T("Plugins.Widgets.ProductOrderQty.FormTitle")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("~/Plugins/Widgets.ProductOrderQty/Views/_CreateOrUpdate.ProductOrderQty.cshtml", Model)</nop-card>

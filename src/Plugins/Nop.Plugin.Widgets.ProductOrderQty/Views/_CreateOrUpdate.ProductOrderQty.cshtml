@@ -1,54 +1,50 @@
 ﻿@model Nop.Plugin.Widgets.ProductOrderQty.Models.ProductOrderQtyModel
 
-@{
-    //active menu item (system name)
-    NopHtml.SetActiveMenuItemSystemName("Products");
-}
-
 
 <div class="card-body">
-    <div id="product-details-area">
 
-        <div class="form-group row">
-            <div class="col-md-3">
-                <nop-label asp-for="FirstOrderQty" />
-            </div>
-            <div class="col-md-9">
-                <nop-editor asp-for="FirstOrderQty" asp-required="true" />
-                <span asp-validation-for="FirstOrderQty"></span>
-            </div>
+    <div asp-validation-summary="All"></div>
+    <input asp-for="Id" type="hidden" />
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="FirstOrderQty" />
         </div>
-
-        <div class="form-group row">
-            <div class="col-md-3">
-                <nop-label asp-for="ReOrderQty" />
-            </div>
-            <div class="col-md-9">
-                <nop-editor asp-for="ReOrderQty" asp-required="true" />
-                <span asp-validation-for="ReOrderQty"></span>
-            </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="FirstOrderQty" asp-required="true" />
+            <span asp-validation-for="FirstOrderQty"></span>
         </div>
-
-        <div class="form-group row">
-            <div class="col-md-9 offset-md-3">
-                <button type="button" class="btn btn-primary" id="btnProductQuantities">
-                    <i class="far fa-save"></i>
-                    @T("Admin.Common.Save")
-                </button>
-            </div>
-        </div>
-
     </div>
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="ReOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ReOrderQty" asp-required="true" />
+            <span asp-validation-for="ReOrderQty"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-9 offset-md-3">
+            <button type="submit" class="btn btn-primary" id="btnProductQuantities">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+
 </div>
 
 
-<script asp-location="Footer">
+<script>
     $(document).ready(function () {
         $('#btnProductQuantities').click(function () {
             var FirstOrderQty = $('#@Html.IdFor(model => model.FirstOrderQty)').val();
             var ReOrderQty = $('#@Html.IdFor(model => model.ReOrderQty)').val();
 
-            $('#btnProductQuantities').attr('disabled', true);
+            $('#addOrderNote').attr('disabled', true);
 
             var postData = {
                 productId: '@Model.ProductId',
@@ -61,9 +57,9 @@
             $.ajax({
                 cache: false,
                 type: "POST",
-                url: "@Url.Action("CreateOrUpdate", "ProductOrderQty")",
+                url: "@(Url.Action("CreateOrUpdate", "ProductOrderQty"))",
                 data: postData,
-                dataType: "json",
+
                 success: function (data, textStatus, jqXHR) {
                     if (data.Result) {
 
@@ -73,7 +69,7 @@
                     }
                 },
                 complete: function (jqXHR, textStatus) {
-                    $('#btnProductQuantities').attr('disabled', false);
+                    $('#addOrderNote').attr('disabled', false);
                 }
 
             });
