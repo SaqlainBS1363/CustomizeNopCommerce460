@@ -6,11 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Nop.Plugin.Widgets.VisitorsCrud.Domain;
 using Nop.Plugin.Widgets.VisitorsCrud.Models;
+using Nop.Web.Models.Customer;
 
 namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
 {
     public interface IVisitorModelFactory
     {
+        Task<CustomerNavigationModel> PrepareCustomerNavigationModelForVisitorAsync(int selectedTabId = 0);
+
+        Task<ConfigurationModel> PrepareVisitorModelAsync(ConfigurationModel model, Visitor visitor, bool excludeProperties = false);
+
         Task<ConfigurationModel> PrepareVisitorModelAsync(ConfigurationModel configurationModel);
 
         Task<ConfigurationSearchModel> PrepareVisitorSearchModelAsync(ConfigurationSearchModel searchModel);
@@ -21,9 +26,11 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Factory
 
         Task<Visitor> AddVisitorModelAsync(ConfigurationModel configurationModel);
 
+        Task<Visitor> GetVisitorAsync(int Id);
+
         Task<ConfigurationModel> GetVisitorModelAsync(int Id);
 
-        Task<ConfigurationModel> EditVisitorModelAsync(ConfigurationModel configurationModel);
+        Task<Visitor> EditVisitorModelAsync(ConfigurationModel configurationModel);
 
         Task<ConfigurationModel> DeleteVisitorModelAsync(int Id);
     }

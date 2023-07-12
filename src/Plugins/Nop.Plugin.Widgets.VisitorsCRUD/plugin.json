@@ -2,7 +2,7 @@
   "Group": "Widgets",
   "FriendlyName": "Visitors Crud",
   "SystemName": "Widgets.VisitorsCrud",
-  "Version": "1.50",
+  "Version": "1.55",
   "SupportedVersions": [ "4.60" ],
   "Author": "Md. Anwarul Habib",
   "DisplayOrder": 1,

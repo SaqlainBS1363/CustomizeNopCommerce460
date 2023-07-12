@@ -31,13 +31,16 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Service
             return new PagedList<Visitor>(visitors, pageIndex, pageSize);
         }
 
-        public async Task<IPagedList<Visitor>> GetAllVisitorsAsync(string visitorName, /*string visitorGender,*/ 
+        public async Task<IPagedList<Visitor>> GetAllVisitorsAsync(string visitorName, string visitorGender, bool visitorActiveStatus,
             int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var visitors = await _visitorRepository.GetAllAsync(query =>
             {
-                /*if (!string.IsNullOrWhiteSpace(visitorGender))
-                    query = query.Where(c => c.Gender == visitorGender);*/
+                if (visitorActiveStatus != false)
+                    query = query.Where(c => c.IsActive == visitorActiveStatus);
+
+                if (!string.IsNullOrWhiteSpace(visitorGender))
+                    query = query.Where(c => c.Gender == visitorGender);
 
                 if (!string.IsNullOrWhiteSpace(visitorName))
                     query = query.Where(c => c.Name.Contains(visitorName));

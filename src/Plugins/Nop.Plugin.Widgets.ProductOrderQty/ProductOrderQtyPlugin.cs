@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
 using Nop.Core;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Widgets.VisitorsCrud.Components;
+using Nop.Plugin.Widgets.ProductOrderQty.Components;
 using Nop.Services.Cms;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
@@ -15,17 +15,17 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Framework.Menu;
 
-namespace Nop.Plugin.Widgets.VisitorsCrud
+namespace Nop.Plugin.Widgets.ProductOrderQty
 {
     /// <summary>
     /// PLugin
     /// </summary>
-    public class VisitorsCrudPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
+    public class ProductOrderQtyPlugin : BasePlugin, IWidgetPlugin
     {
         private readonly ILocalizationService _localizationService;
         private readonly IWebHelper _webHelper;
 
-        public VisitorsCrudPlugin(ILocalizationService localizationService,
+        public ProductOrderQtyPlugin(ILocalizationService localizationService,
             IWebHelper webHelper)
         {
             _localizationService = localizationService;
@@ -41,35 +41,11 @@ namespace Nop.Plugin.Widgets.VisitorsCrud
         /// </returns>
         public Task<IList<string>> GetWidgetZonesAsync()
         {
-            return Task.FromResult<IList<string>>(new List<string> { /*PublicWidgetZones.HomepageTop*/ PublicWidgetZones.AccountNavigationAfter });
-        }
-
-        /// <summary>
-        /// Gets a configuration page URL
-        /// </summary>
-        public override string GetConfigurationPageUrl()
-        {
-            return _webHelper.GetStoreLocation() + "Admin/WidgetsVisitorsCrud/Configure";
-        }
-
-        /// <summary>
-        /// Manage sitemap. You can use "SystemName" of menu items to manage existing sitemap or add a new menu item.
-        /// </summary>
-        /// <param name="rootNode">Root node of the sitemap.</param>
-        /// <returns>A task that represents the asynchronous operation</returns>
-        public async Task ManageSiteMapAsync(SiteMapNode rootNode)
-        {
-            var index = rootNode.ChildNodes.Count;
-
-            rootNode.ChildNodes.Insert(index, new SiteMapNode
-            {
-                Visible = true,
-                SystemName = "Widgets.VisitorsCrud",
-                Title = "Visitors Crud",
-                IconClass = "fa fa-id-card",
-                ControllerName = "WidgetsVisitorsCrud",
-                ActionName = "Configure",
-                RouteValues = new RouteValueDictionary { { "area", AreaNames.Admin } }
+            return Task.FromResult<IList<string>>(new List<string> { 
+                AdminWidgetZones.ProductDetailsBlock, 
+                PublicWidgetZones.ProductBoxAddinfoMiddle,
+                PublicWidgetZones.ProductPriceBottom,
+                PublicWidgetZones.ProductDetailsBottom
             });
         }
 
@@ -80,7 +56,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud
         /// <returns>View component name</returns>
         public Type GetWidgetViewComponent(string widgetZone)
         {
-            return typeof(WidgetsVisitorsCrudViewComponent);
+            return typeof(ProductOrderQtyViewComponent);
         }
 
         /// <summary>
@@ -91,10 +67,12 @@ namespace Nop.Plugin.Widgets.VisitorsCrud
         {
             await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
             {
-                ["Plugins.Widgets.VisitorsCrud.InfoVisitorPageTitle"] = "Visitor Information",
-                ["Plugins.Widgets.VisitorsCrud.EditVisitorPageTitle"] = "Edit Visitor",
-                ["Plugins.Widgets.VisitorsCrud.InsertVisitorPageTitle"] = "Create Visitor",
-                ["Plugins.Widgets.VisitorsCrud.AllVisitorsPageTitle"] = "All Visitors"
+                ["Plugins.Widgets.ProductOrderQty.SaveNotification"] = "Product Order Quantity have been updated",
+                ["Plugins.Widgets.ProductOrderQty.FormTitle"] = "Set Product Order Quantities",
+                ["Plugins.Widgets.ProductOrderQty.FirstOrderQuantity"] = "First Order Quantity",
+                ["Plugins.Widgets.ProductOrderQty.FirstOrderQuantity.Hint"] = "The quantity of a product one customer should must order if it's his/her first time ordering this product.",
+                ["Plugins.Widgets.ProductOrderQty.ReOrderQuantity"] = "Reorder Quantity",
+                ["Plugins.Widgets.ProductOrderQty.ReOrderQuantity.Hint"] = "Allowed number of quantity one customer can order if it is being re-ordered."
             });
 
             await base.InstallAsync();
@@ -107,7 +85,7 @@ namespace Nop.Plugin.Widgets.VisitorsCrud
         public override async Task UninstallAsync()
         {
             //locales
-            await _localizationService.DeleteLocaleResourcesAsync("Plugins.Widgets.VisitorsCrud");
+            await _localizationService.DeleteLocaleResourcesAsync("Plugins.Widgets.ProductOrderQty");
 
             await base.UninstallAsync();
         }

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Product Order Quantity",
+  "SystemName": "Widgets.ProductOrderQty",
+  "Version": "1.50",
+  "SupportedVersions": [ "4.60" ],
+  "Author": "Md. Anwarul Habib",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.ProductOrderQty.dll",
+  "Description": "This plugin allows admin to set the product order quantity rules for customers."
+}

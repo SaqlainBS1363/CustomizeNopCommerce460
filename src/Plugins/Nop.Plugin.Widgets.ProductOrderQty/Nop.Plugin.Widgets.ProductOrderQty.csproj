@@ -9,7 +9,7 @@
     <PackageProjectUrl>https://www.nopcommerce.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nopSolutions/nopCommerce</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.VisitorsCrud</OutputPath>
+    <OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.ProductOrderQty</OutputPath>
     <OutDir>$(OutputPath)</OutDir>
     <!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your project. 
     You need to set this parameter to true if your plugin has a nuget package to ensure that 
@@ -25,12 +25,9 @@
 
   <ItemGroup>
     <None Remove="plugin.json" />
-    <None Remove="Views\Configure.cshtml" />
-    <None Remove="Views\Create.cshtml" />
-    <None Remove="Views\Delete.cshtml" />
-    <None Remove="Views\Edit.cshtml" />
-    <None Remove="Views\PublicInfo.cshtml" />
-    <None Remove="Views\VisitorList.cshtml" />
+    <None Remove="Views\CreateOrUpdate.cshtml" />
+    <None Remove="Views\PublicView.cshtml" />
+    <None Remove="Views\_CreateOrUpdate.ProductOrderQty.cshtml" />
     <None Remove="Views\_ViewImports.cshtml" />
   </ItemGroup>
   
@@ -43,22 +40,13 @@
     <Content Include="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Delete.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Edit.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Create.cshtml">
+    <Content Include="Views\PublicView.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>    
-    <Content Include="Views\Configure.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>    
-    <Content Include="Views\VisitorList.cshtml">
+    <Content Include="Views\CreateOrUpdate.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\PublicInfo.cshtml">
+    <Content Include="Views\_CreateOrUpdate.ProductOrderQty.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\_ViewImports.cshtml">

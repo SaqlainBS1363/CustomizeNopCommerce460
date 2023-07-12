@@ -1,0 +1,78 @@
+﻿@model Nop.Plugin.Widgets.ProductOrderQty.Models.ProductOrderQtyModel
+
+
+<div class="card-body">
+
+    <div asp-validation-summary="All"></div>
+    <input asp-for="Id" type="hidden" />
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="FirstOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="FirstOrderQty" asp-required="true" />
+            <span asp-validation-for="FirstOrderQty"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="ReOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ReOrderQty" asp-required="true" />
+            <span asp-validation-for="ReOrderQty"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-9 offset-md-3">
+            <button type="submit" class="btn btn-primary" id="btnProductQuantities">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#btnProductQuantities').click(function () {
+            var FirstOrderQty = $('#@Html.IdFor(model => model.FirstOrderQty)').val();
+            var ReOrderQty = $('#@Html.IdFor(model => model.ReOrderQty)').val();
+
+            $('#addOrderNote').attr('disabled', true);
+
+            var postData = {
+                productId: '@Model.ProductId',
+                firstOrderQty: FirstOrderQty,
+                reOrderQty: ReOrderQty
+            };
+
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("CreateOrUpdate", "ProductOrderQty"))",
+                data: postData,
+
+                success: function (data, textStatus, jqXHR) {
+                    if (data.Result) {
+
+                    } else {
+                        //display errors if returned
+                        display_nop_error(data);
+                    }
+                },
+                complete: function (jqXHR, textStatus) {
+                    $('#addOrderNote').attr('disabled', false);
+                }
+
+            });
+        });
+    });
+</script>

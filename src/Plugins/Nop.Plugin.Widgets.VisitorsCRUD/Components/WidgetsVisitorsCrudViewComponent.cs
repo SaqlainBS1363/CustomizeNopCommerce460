@@ -10,19 +10,17 @@ namespace Nop.Plugin.Widgets.VisitorsCrud.Components
 {
     public class WidgetsVisitorsCrudViewComponent : NopViewComponent
     {
-        private readonly IVisitorModelFactory _visitorModelFactory;
+        /*private readonly IVisitorModelFactory _visitorModelFactory;
 
         public WidgetsVisitorsCrudViewComponent(IVisitorModelFactory visitorModelFactory)
         {
             _visitorModelFactory = visitorModelFactory;
-        }
+        }*/
 
         /// <returns>A task that represents the asynchronous operation</returns>
         public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
         {
-            var publicVisitors = _visitorModelFactory.PreparePublicVisitorModelListAsync().Result;
-
-            return View("~/Plugins/Widgets.VisitorsCrud/Views/PublicInfo.cshtml", publicVisitors);
+            return View("~/Plugins/Widgets.VisitorsCrud/Views/PublicInfo.cshtml");
         }
     }
 }
